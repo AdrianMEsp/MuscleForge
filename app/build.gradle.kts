@@ -33,9 +33,18 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures{
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
+    val navVersion="2.9.0"
+
+    //NavComponents
+    implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navVersion")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
