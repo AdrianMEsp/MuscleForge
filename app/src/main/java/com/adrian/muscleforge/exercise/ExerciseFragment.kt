@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.adrian.muscleforge.databinding.FragmentExerciseBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ExerciseFragment : Fragment() {
 
     private var _binding: FragmentExerciseBinding? = null
