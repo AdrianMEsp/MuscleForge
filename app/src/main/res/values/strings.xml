@@ -5,4 +5,10 @@
     <string name="home">Home</string>
     <string name="exercises">Exercises</string>
     <string name="routines">Routines</string>
+    <string name="welcome">Welcome</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
+
+
 </resources>
