@@ -10,5 +10,11 @@
     <string name="stop">Stop</string>
     <string name="pause">Pause</string>
 
+    <string name="routine1">Rutina 1</string>
+    <string name="routine2">Rutina 2</string>
+    <string name="routine3">Rutina 3</string>
+    <string name="routine4">Rutina 4</string>
+    <string name="routine5">Rutina 5</string>
+
 
 </resources>

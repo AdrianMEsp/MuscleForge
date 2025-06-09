@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.adrian.muscleforge.databinding.FragmentRoutinesBinding
+
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,5 +21,10 @@ class RoutineFragment : Fragment() {
         _binding = FragmentRoutinesBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        super.onViewCreated(view, savedInstanceState)
+    }
+
 
 }
