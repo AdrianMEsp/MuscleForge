@@ -16,5 +16,9 @@
     <string name="routine4">Rutina 4</string>
     <string name="routine5">Rutina 5</string>
 
+    <string name="hint">Introduce name for new routine</string>
+    <string name="add_routine">addRoutine</string>
+    <string name="confirm">Confirm</string>
+    <string name="name_of_routine">Name of Routine</string>
 
 </resources>
