@@ -1,12 +1,19 @@
 package com.adrian.muscleforge.routines
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.muscleforge.R
@@ -20,47 +27,58 @@ class RoutineFragment : Fragment() {
 
     private var _binding: FragmentRoutinesBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: RoutineViewModel by viewModels()
 
     private lateinit var adapter: RoutineAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentRoutinesBinding.inflate(layoutInflater,container,false)
+    ): View {
+        _binding = FragmentRoutinesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupListeners()
-        binding.createNewRoutine.setOnClickListener { showDialog() }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        adapter = RoutineAdapter(emptyList())
+        binding.routineRecyclerView.adapter = adapter
+        binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.createNewRoutine.setOnClickListener {
+            showDialog()
+        }
+
+        // Observar rutinas
+        lifecycleScope.launchWhenStarted {
+            viewModel.routines.collect { routines ->
+                adapter.updateList(routines)
+            }
+        }
     }
 
-    private fun setupListeners() {
-        binding.createNewRoutine.setOnClickListener { showDialog() }
-    }
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Nueva rutina")
 
-    private fun setupRecyclerView() {
-        adapter = RoutineAdapter()
-        binding.rvRoutines.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvRoutines.adapter = adapter
+        val input = EditText(requireContext())
+        input.hint = "Nombre de la rutina"
+        builder.setView(input)
 
-        adapter.submitList(
-            listOf("Rutina dia martes","Rutina dia miercoles","Rutina para casa")
-        )
-    }
+        builder.setPositiveButton("Guardar") { _, _ ->
+            val name = input.text.toString()
+            if (name.isNotBlank()) {
+                viewModel.addRoutine(name)
+            }
+        }
 
-    private fun RoutineFragment.showDialog() {
-        TODO("Not yet implemented")
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null   // evita memory leaks
+        _binding = null
     }
-
-
 }
-
-

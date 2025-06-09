@@ -1,9 +1,10 @@
 package com.adrian.muscleforge.routines
 
-import com.adrian.muscleforge.exercise.Exercise
+import androidx.room.PrimaryKey
+import androidx.room.Entity
 
+@Entity(tableName = "routines")
 data class Routine(
-    val id: Int,
-    val name: String,
-    val exercises: MutableList<Exercise> = mutableListOf()
+    @PrimaryKey(autoGenerate = true) val id:Int=0,
+    val name: String
 )

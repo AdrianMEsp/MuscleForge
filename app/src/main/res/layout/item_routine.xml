@@ -9,7 +9,7 @@
     app:cardElevation="6dp">
 
     <TextView
-        android:id="@+id/routineTitle"
+        android:id="@+id/tvRoutineName"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:padding="20dp"
