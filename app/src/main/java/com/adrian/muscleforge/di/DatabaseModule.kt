@@ -3,7 +3,8 @@ package com.adrian.muscleforge.di
 import android.content.Context
 import androidx.room.Room
 import com.adrian.muscleforge.data.AppDatabase
-import com.adrian.muscleforge.routines.RoutineDao
+import com.adrian.muscleforge.exercise.dao.ExerciseDao
+import com.adrian.muscleforge.routines.dao.RoutineDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,12 +22,17 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "routine_database"
+            "muscle_forge_db"
         ).build()
     }
 
     @Provides
     fun provideRoutineDao(db: AppDatabase): RoutineDao {
         return db.routineDao()
+    }
+
+    @Provides
+    fun provideExerciseDao(db: AppDatabase): ExerciseDao{
+        return db.exerciseDao()
     }
 }

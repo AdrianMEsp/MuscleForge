@@ -1,24 +1,17 @@
 package com.adrian.muscleforge.routines
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
-import android.text.InputType
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.adrian.muscleforge.R
 import com.adrian.muscleforge.databinding.FragmentRoutinesBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.adrian.muscleforge.routines.adapter.RoutineAdapter
 
 import dagger.hilt.android.AndroidEntryPoint
 

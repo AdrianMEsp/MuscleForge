@@ -10,15 +10,19 @@
     <string name="stop">Stop</string>
     <string name="pause">Pause</string>
 
-    <string name="routine1">Rutina 1</string>
-    <string name="routine2">Rutina 2</string>
-    <string name="routine3">Rutina 3</string>
-    <string name="routine4">Rutina 4</string>
-    <string name="routine5">Rutina 5</string>
+    <string name="routine1">Routine 1</string>
+    <string name="routine2">Routine 2</string>
+    <string name="routine3">Routine 3</string>
+    <string name="routine4">Routine 4</string>
+    <string name="routine5">Routine 5</string>
 
     <string name="hint">Introduce name for new routine</string>
     <string name="add_routine">addRoutine</string>
     <string name="confirm">Confirm</string>
     <string name="name_of_routine">Name of Routine</string>
+
+    <string name="series">Series</string>
+    <string name="repetitions">Repetitions</string>
+    <string name="weight">Weight</string>
 
 </resources>

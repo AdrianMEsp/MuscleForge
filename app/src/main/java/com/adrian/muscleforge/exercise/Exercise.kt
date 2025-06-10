@@ -1,9 +1,13 @@
 package com.adrian.muscleforge.exercise
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "exercises")
 data class Exercise(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true) val id:Int=0,
     val name: String,
-    val description: String,
+    val series: Int,
     val repetitions: Int,
-    val series: Int
+    val weight: Double
     )
