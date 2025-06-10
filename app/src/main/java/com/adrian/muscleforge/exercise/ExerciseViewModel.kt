@@ -1,5 +1,6 @@
 package com.adrian.muscleforge.exercise
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrian.muscleforge.exercise.dao.ExerciseDao
@@ -25,6 +26,7 @@ class ExerciseViewModel @Inject constructor( private val exerciseDao: ExerciseDa
         viewModelScope.launch {
             exerciseDao.getAllExercises().collect {
                 list -> _exercises.value = list
+                Log.i("exercises",list.toString())
             }
         }
     }

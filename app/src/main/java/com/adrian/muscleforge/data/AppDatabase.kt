@@ -1,7 +1,7 @@
 package com.adrian.muscleforge.data
 
 import android.content.Context
-import android.provider.SyncStateContract.Helpers.insert
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -14,8 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
-@Database(entities = [Routine::class, Exercise::class], version = 2)
+@Database(entities = [Routine::class, Exercise::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
     abstract fun exerciseDao(): ExerciseDao
@@ -26,31 +25,32 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                val instance =
-                    Room.databaseBuilder(context.applicationContext, AppDatabase::class.java,
-                    "muscle_forge_database"
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "muscle_forge_db"
                 )
-                    .addCallback(object : Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-
-                            // Poblar la base de datos al crearla
-                            CoroutineScope(Dispatchers.IO).launch {
-                                INSTANCE?.exerciseDao()?.apply {
-                                    ExerciseDataSeeder.getInitialExercises().forEach {
-                                        addExercise(it)
-                                    }
-                                }
-                            }
-                        }
-                    })
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration() // 🔧 Borra DB vieja si cambia versión
+                    .addCallback(DatabaseCallback())   // ⬅️ Attach callback para seeding
                     .build()
                 INSTANCE = instance
                 instance
             }
+        }
 
+        private class DatabaseCallback : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                Log.i("DB", "onCreate triggered, seeding initial data")
+                CoroutineScope(Dispatchers.IO).launch {
+                    INSTANCE?.exerciseDao()?.let { dao ->
+                        ExerciseDataSeeder.getInitialExercises().forEach {
+                            dao.addExercise(it)
+                            Log.i("DB", "Inserted exercise: $it")
+                        }
+                    }
+                }
+            }
         }
     }
 }
-

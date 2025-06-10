@@ -16,23 +16,17 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
+    @Provides
     @Singleton
-    @Provides
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "muscle_forge_db"
-        ).build()
+        return AppDatabase.getDatabase(context)
     }
 
     @Provides
-    fun provideRoutineDao(db: AppDatabase): RoutineDao {
-        return db.routineDao()
-    }
+    fun provideExerciseDao(db: AppDatabase): ExerciseDao = db.exerciseDao()
 
     @Provides
-    fun provideExerciseDao(db: AppDatabase): ExerciseDao{
-        return db.exerciseDao()
-    }
+    fun provideRoutineDao(db: AppDatabase): RoutineDao = db.routineDao()
 }
+
+

@@ -13,7 +13,7 @@ interface ExerciseDao {
     @Insert
     suspend fun addExercise(exercise: Exercise)
 
-    @Query("SELECT * FROM exercises")
+    @Query("SELECT * FROM exercise")
     fun getAllExercises(): Flow<List<Exercise>>
 
     @Delete

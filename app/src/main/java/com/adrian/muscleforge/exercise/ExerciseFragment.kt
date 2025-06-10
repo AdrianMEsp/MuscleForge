@@ -1,6 +1,7 @@
 package com.adrian.muscleforge.exercise
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,7 @@ class ExerciseFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+//        super.onViewCreated(view, savedInstanceState)
 
         adapter = ExerciseAdapter(emptyList())
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -36,8 +37,8 @@ class ExerciseFragment : Fragment() {
 
         // Observar datos de Room
         lifecycleScope.launchWhenStarted {
-            viewModel.exercises.collect { list ->
-                adapter.updateList(list)
+            viewModel.exercises.collect { exercises ->
+                adapter.updateList(exercises)
             }
         }
 

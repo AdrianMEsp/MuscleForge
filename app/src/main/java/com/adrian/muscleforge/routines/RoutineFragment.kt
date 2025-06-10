@@ -48,6 +48,7 @@ class RoutineFragment : Fragment() {
         }
     }
 
+    //to create a new routine only with name
     private fun showDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Nueva rutina")
