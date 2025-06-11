@@ -9,8 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RoutineViewModel @Inject constructor(
-    private val routineDao: RoutineDao
+class RoutineViewModel @Inject constructor(private val routineDao: RoutineDao
 ) : ViewModel() {
 
     private val _routines = MutableStateFlow<List<Routine>>(emptyList())
@@ -22,7 +21,6 @@ class RoutineViewModel @Inject constructor(
 
 
     //This things connect to de daoRoutine
-
     private fun loadRoutines() {
         viewModelScope.launch {
             routineDao.getAllRoutines()

@@ -2,12 +2,15 @@ package com.adrian.muscleforge.exercise
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,18 +57,46 @@ class ExerciseFragment : Fragment() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("New Exercise")
 
-        val input = EditText(requireContext())
-        input.hint = "Name of the Exercise"
-        builder.setView(input)
+        // Creamos un layout vertical para los campos
+        val layout = LinearLayout(requireContext())
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(50, 40, 50, 10) // márgenes opcionales
+
+        val inputName = EditText(requireContext()).apply { hint = "Name of the Exercise" }
+        val inputSeries = EditText(requireContext()).apply {
+            hint = "Number of series"
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        val inputRepeats = EditText(requireContext()).apply {
+            hint = "Number of repeats"
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        val inputWeight = EditText(requireContext()).apply {
+            hint = "Weight"
+            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        }
+
+        layout.addView(inputName)
+        layout.addView(inputSeries)
+        layout.addView(inputRepeats)
+        layout.addView(inputWeight)
+
+        builder.setView(layout)
 
         builder.setPositiveButton("Save") { _, _ ->
-            val name = input.text.toString()
+            val name = inputName.text.toString()
+            val series = inputSeries.text.toString().toIntOrNull() ?: 0
+            val repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
+            val weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
+
             if (name.isNotBlank()) {
-                viewModel.addExercise(name)
+                viewModel.addExercise(name, series, repeats, weight)
+            } else {
+                Toast.makeText(requireContext(), "Name can't be empty", Toast.LENGTH_SHORT).show()
             }
         }
 
-        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+        builder.setNegativeButton("Cancel", null)
         builder.show()
     }
 }

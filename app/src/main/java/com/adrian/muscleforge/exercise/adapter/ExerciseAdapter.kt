@@ -13,6 +13,9 @@ RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>(){
 
     inner class ExerciseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val nameText: TextView = itemView.findViewById(R.id.tvExerciseName)
+        val series: TextView = itemView.findViewById(R.id.tvSeries)
+        val reps: TextView = itemView.findViewById(R.id.tvRepetitions)
+        val weight: TextView = itemView.findViewById(R.id.tvWeight)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseViewHolder {
@@ -26,6 +29,9 @@ RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder>(){
         position: Int
     ) {
         holder.nameText.text = exercises[position].name
+        holder.series.text = exercises[position].series.toString()
+        holder.reps.text = exercises[position].repetitions.toString()
+        holder.weight.text = exercises[position].weight.toString()
     }
 
     override fun getItemCount(): Int = exercises.size

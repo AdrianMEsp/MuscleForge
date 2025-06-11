@@ -11,3 +11,4 @@ data class Exercise(
     val repetitions: Int,
     val weight: Double
     )
+

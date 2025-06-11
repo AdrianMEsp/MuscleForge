@@ -32,7 +32,6 @@ class RoutineFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //adapter = RoutineAdapter(emptyList())
         adapter = RoutineAdapter(emptyList()) {
             updatedRoutine -> viewModel.updateRoutine(updatedRoutine)
         }

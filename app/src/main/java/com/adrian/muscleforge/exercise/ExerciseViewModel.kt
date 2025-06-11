@@ -30,10 +30,9 @@ class ExerciseViewModel @Inject constructor( private val exerciseDao: ExerciseDa
         }
     }
 
-
-    fun addExercise(name: String){
+    fun addExercise(name: String,series: Int, repeats: Int, weight: Double){
         viewModelScope.launch {
-            val newExercise = Exercise(name = name, series = 0, repetitions = 0, weight = 0.0)
+            val newExercise = Exercise(name = name, series = series, repetitions = repeats, weight = weight)
             exerciseDao.addExercise(newExercise)
         }
     }
