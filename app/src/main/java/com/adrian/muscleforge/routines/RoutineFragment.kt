@@ -51,20 +51,20 @@ class RoutineFragment : Fragment() {
     //to create a new routine only with name
     private fun showDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Nueva rutina")
+        builder.setTitle("New Routine")
 
         val input = EditText(requireContext())
-        input.hint = "Nombre de la rutina"
+        input.hint = "Name of the Routine"
         builder.setView(input)
 
-        builder.setPositiveButton("Guardar") { _, _ ->
+        builder.setPositiveButton("Save") { _, _ ->
             val name = input.text.toString()
             if (name.isNotBlank()) {
                 viewModel.addRoutine(name)
             }
         }
 
-        builder.setNegativeButton("Cancelar") { dialog, _ ->
+        builder.setNegativeButton("Calcel") { dialog, _ ->
             dialog.cancel()
         }
 

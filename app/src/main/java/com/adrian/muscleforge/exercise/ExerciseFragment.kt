@@ -1,11 +1,13 @@
 package com.adrian.muscleforge.exercise
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,13 +37,36 @@ class ExerciseFragment : Fragment() {
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.exerciseRecyclerView.adapter = adapter
 
+        binding.fabAddExercise.setOnClickListener {
+            showDialog()
+        }
+
         // Observar datos de Room
         lifecycleScope.launchWhenStarted {
             viewModel.exercises.collect { exercises ->
                 adapter.updateList(exercises)
             }
         }
+    }
 
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("New Exercise")
 
+        val input = EditText(requireContext())
+        input.hint = "Name of the Exercise"
+        builder.setView(input)
+
+        builder.setPositiveButton("Save") { _, _ ->
+            val name = input.text.toString()
+            if (name.isNotBlank()) {
+                viewModel.addExercise(name)
+            }
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+        builder.show()
     }
 }
+
+
