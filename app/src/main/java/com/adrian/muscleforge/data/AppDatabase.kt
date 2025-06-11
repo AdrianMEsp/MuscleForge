@@ -14,7 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Routine::class, Exercise::class], version = 4)
+@Database(entities = [Routine::class, Exercise::class], version = 7)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
     abstract fun exerciseDao(): ExerciseDao
@@ -31,23 +31,23 @@ abstract class AppDatabase : RoomDatabase() {
                     "muscle_forge_db"
                 )
                     .fallbackToDestructiveMigration() // 🔧 Borra DB vieja si cambia versión
-                    .addCallback(DatabaseCallback())   // ⬅️ Attach callback para seeding
+                    .addCallback(DatabaseCallback(context))   // ⬅️ Attach callback para seeding
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
 
-        private class DatabaseCallback : RoomDatabase.Callback() {
+        private class DatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
                 Log.i("DB", "onCreate triggered, seeding initial data")
                 CoroutineScope(Dispatchers.IO).launch {
-                    INSTANCE?.exerciseDao()?.let { dao ->
-                        ExerciseDataSeeder.getInitialExercises().forEach {
-                            dao.addExercise(it)
-                            Log.i("DB", "Inserted exercise: $it")
-                        }
+                    val database = getDatabase(context) // obtener instancia ya creada
+                    val dao = database.exerciseDao()
+                    ExerciseDataSeeder.getInitialExercises().forEach {
+                        dao.addExercise(it)
+                        Log.i("DB", "Inserted exercise: $it")
                     }
                 }
             }

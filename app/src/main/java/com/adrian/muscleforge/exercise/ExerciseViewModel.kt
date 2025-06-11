@@ -26,7 +26,6 @@ class ExerciseViewModel @Inject constructor( private val exerciseDao: ExerciseDa
         viewModelScope.launch {
             exerciseDao.getAllExercises().collect {
                 list -> _exercises.value = list
-                Log.i("exercises",list.toString())
             }
         }
     }

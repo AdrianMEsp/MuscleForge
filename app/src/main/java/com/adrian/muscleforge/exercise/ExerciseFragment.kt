@@ -44,7 +44,8 @@ class ExerciseFragment : Fragment() {
         // Observar datos de Room
         lifecycleScope.launchWhenStarted {
             viewModel.exercises.collect { exercises ->
-                adapter.updateList(exercises)
+                val sortedList = exercises.sortedBy { it.name } //ordena por nombre la lista de exercises
+                adapter.updateList(sortedList)
             }
         }
     }

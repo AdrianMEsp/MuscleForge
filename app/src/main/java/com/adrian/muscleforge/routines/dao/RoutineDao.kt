@@ -3,6 +3,7 @@ package com.adrian.muscleforge.routines.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.adrian.muscleforge.routines.Routine
 import kotlinx.coroutines.flow.Flow
 
@@ -13,4 +14,8 @@ interface RoutineDao {
 
     @Query("SELECT * FROM routines")
     fun getAllRoutines(): Flow<List<Routine>>
+
+    @Update
+    suspend fun updateRoutine(routine: Routine)
+
 }

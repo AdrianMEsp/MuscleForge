@@ -20,12 +20,21 @@ class RoutineViewModel @Inject constructor(
         loadRoutines()
     }
 
+
+    //This things connect to de daoRoutine
+
     private fun loadRoutines() {
         viewModelScope.launch {
             routineDao.getAllRoutines()
                 .collect { list ->
                     _routines.value = list
                 }
+        }
+    }
+
+    fun updateRoutine(routine: Routine){
+        viewModelScope.launch {
+            routineDao.updateRoutine(routine)
         }
     }
 

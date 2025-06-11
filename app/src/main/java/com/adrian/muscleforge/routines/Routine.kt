@@ -6,5 +6,6 @@ import androidx.room.Entity
 @Entity(tableName = "routines")
 data class Routine(
     @PrimaryKey(autoGenerate = true) val id:Int=0,
-    val name: String
+    val name: String,
+    val isChecked: Boolean = false //cuando se crea se guarda sin check
 )
