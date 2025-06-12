@@ -88,18 +88,30 @@ class ExerciseFragment : Fragment() {
         builder.setView(layout)
 
         builder.setPositiveButton("Save") { _, _ ->
-//            makes the first char uppercase so the list is always sorted
-            val name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
 
-            val series = inputSeries.text.toString().toIntOrNull() ?: 0
-            val repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
-            val weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
+//            makes the first char uppercase so the list is always sorted
+            var name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
+
+            var series = inputSeries.text.toString().toIntOrNull() ?: 0
+            var repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
+            var weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
+
+            if (repeats == 0){
+                repeats = exercise.repetitions
+            }
+            if (weight.equals(0.0)){
+                weight = exercise.weight
+            }
+            if (series == 0){
+                series = exercise.series
+            }
 
             if (name.isNotBlank()) {
                 viewModel.addExercise(name, series, repeats, weight)
                 viewModel.deleteExercise(exercise)
             } else {
-                Toast.makeText(requireContext(), "Name can't be empty", Toast.LENGTH_SHORT).show()
+                viewModel.addExercise(exercise.name, series, repeats, weight)
+                viewModel.deleteExercise(exercise)
             }
         }
 
@@ -157,6 +169,8 @@ class ExerciseFragment : Fragment() {
         layout.addView(inputWeight)
 
         builder.setView(layout)
+
+
 
         builder.setPositiveButton("Save") { _, _ ->
             val name = inputName.text.toString()

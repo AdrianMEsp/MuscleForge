@@ -12,13 +12,16 @@ import com.adrian.muscleforge.routines.Routine
 
 class RoutineAdapter(private var routines: List<Routine>,
     private val onCheckedChanged: (Routine) -> Unit,
-    private val onDeleteClick: (Routine) -> Unit )
+    private val onDeleteClick: (Routine) -> Unit ,
+    private val onEditClick: (Routine) -> Unit)
+
     : RecyclerView.Adapter<RoutineAdapter.RoutineViewHolder>() {
 
     inner class RoutineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.tvRoutineName)
         val checkbox: CheckBox = itemView.findViewById(R.id.checkboxRoutine)
 
+        val btnEdit: ImageButton = itemView.findViewById(R.id.btnAddExerToRoutine)
         val btnDelete: ImageButton = itemView.findViewById(R.id.btnDeleteRoutine)
 
         fun bind(routine: Routine){
@@ -41,6 +44,9 @@ class RoutineAdapter(private var routines: List<Routine>,
     override fun onBindViewHolder(holder: RoutineViewHolder, position: Int) {
         val routine = routines[position]
         holder.bind(routine)
+        holder.btnEdit.setOnClickListener {
+            onEditClick(routine)
+        }
         holder.btnDelete.setOnClickListener {
             onDeleteClick(routine)
         }

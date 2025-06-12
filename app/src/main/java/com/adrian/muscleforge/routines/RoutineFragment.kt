@@ -35,7 +35,8 @@ class RoutineFragment : Fragment() {
         adapter = RoutineAdapter(
             emptyList(),
             onCheckedChanged = { routine -> viewModel.updateRoutine(routine) },
-            onDeleteClick = {routine -> deleteRoutine(routine)}
+            onDeleteClick = {routine -> deleteRoutine(routine)},
+            onEditClick = {routine -> editRoutine(routine)}
         )
 
         binding.routineRecyclerView.adapter = adapter
@@ -74,6 +75,10 @@ class RoutineFragment : Fragment() {
         }
 
         builder.show()
+    }
+
+    private fun editRoutine(routine: Routine){
+
     }
 
     private fun deleteRoutine(routine: Routine){
