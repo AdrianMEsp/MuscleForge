@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ExerciseRepository @Inject constructor(private val dao: ExerciseDao){
-    suspend fun insert(exercise: Exercise) = dao.addExercise(exercise)
+    suspend fun addExercise(exercise: Exercise) = dao.addExercise(exercise)
 
     fun getAll(): Flow<List<Exercise>> = dao.getAllExercises()
 

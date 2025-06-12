@@ -12,11 +12,15 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.muscleforge.databinding.FragmentExerciseBinding
 import com.adrian.muscleforge.exercise.adapter.ExerciseAdapter
+import com.adrian.muscleforge.relation.RoutineExerciseCrossRef
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ExerciseFragment : Fragment() {
@@ -26,38 +30,104 @@ class ExerciseFragment : Fragment() {
     private val viewModel: ExerciseViewModel by viewModels()
     private lateinit var adapter: ExerciseAdapter
 
+    private var isSelectionMode = false
+    private var routineId: Long? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentExerciseBinding.inflate(layoutInflater, container, false)
+    ): View {
+        _binding = FragmentExerciseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
+        arguments?.let {
+            isSelectionMode = it.getBoolean("isSelectionMode", false)
+            routineId = it.getLong("routineId", -1).takeIf { id -> id != -1L }
+        }
 
-        adapter = ExerciseAdapter(emptyList(),
-            onEditClick = { exercise -> editExercise(exercise) },
-            onDeleteClick = { exercise -> deleteExercise(exercise) }
+        adapter = ExerciseAdapter(
+            exercises = emptyList(),
+            onEditClick = { exercise -> if (!isSelectionMode) editExercise(exercise) },
+            onDeleteClick = { exercise -> if (!isSelectionMode) deleteExercise(exercise) },
+            onItemClick = { /* Puedes usarlo para selección visual si lo deseas */ },
+            isSelectionMode = isSelectionMode
         )
+
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.exerciseRecyclerView.adapter = adapter
 
-        binding.fabAddExercise.setOnClickListener {
-            showDialog()
-        }
+        if (isSelectionMode) {
+            binding.fabAddExercise.visibility = View.GONE
+            binding.btnConfirmSelection.visibility = View.VISIBLE
 
-        // Observar datos de Room
-        lifecycleScope.launchWhenStarted {
-            viewModel.exercises.collect { exercises ->
-                val sortedList = exercises.sortedBy { it.name } //ordena por nombre la lista de exercises
-                adapter.updateList(sortedList)
+            binding.btnConfirmSelection.setOnClickListener {
+                routineId?.let { id ->
+                    val selected = adapter.getSelectedExercises()
+                    if (selected.isEmpty()) {
+                        Toast.makeText(requireContext(), "Selecciona al menos un ejercicio", Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    lifecycleScope.launch {
+                        selected.forEach {
+                            viewModel.insertRoutineExerciseCrossRef(
+                                RoutineExerciseCrossRef(routineId = id, exerciseId = it.exerciseId)
+                            )
+                        }
+                        Toast.makeText(requireContext(), "Ejercicios añadidos a la rutina", Toast.LENGTH_SHORT).show()
+
+                        // Recargar lista de no asignados
+                        val updatedList = viewModel.getUnassignedExercises(id)
+                        adapter.updateList(updatedList.sortedBy { it.name })
+                    }
+                }
+            }
+
+        } else {
+            binding.btnConfirmSelection.visibility = View.GONE
+            binding.fabAddExercise.setOnClickListener {
+                showDialog()
+            }
+        }
+        loadExercises()
+    }
+
+    private fun loadExercises() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                if (isSelectionMode && routineId != null) {
+                    // Solo una vez obtienes la lista suspend
+                    val unassigned = viewModel.getUnassignedExercises(routineId!!)
+                    adapter.updateList(unassigned.sortedBy { it.name })
+                } else {
+                    // Aquí colectas el Flow mientras el lifecycle esté STARTED
+                    viewModel.exercises.collect { exercises ->
+                        Log.d("ExerciseFragment", "Ejercicios recibidos: ${exercises.size}")
+                        adapter.updateList(exercises.sortedBy { it.name })
+                    }
+                }
             }
         }
     }
 
+
+//    private fun associateExerciseWithRoutine(exerciseId: Long, routineId: Long) {
+//        viewModel.insertRoutineExerciseCrossRef(
+//            RoutineExerciseCrossRef(routineId = routineId, exerciseId = exerciseId)
+//        )
+//        Toast.makeText(requireContext(), "Ejercicio añadido a la rutina", Toast.LENGTH_SHORT).show()
+//
+//        // Refrescar la lista de ejercicios disponibles
+//        lifecycleScope.launch {
+//            val updatedList = viewModel.getUnassignedExercises(routineId)
+//            adapter.updateList(updatedList.sortedBy { it.name })
+//        }
+//    }
+
+
     //optimizar luego
-    private fun editExercise(exercise: Exercise){
+    private fun editExercise(exercise: Exercise) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(exercise.name)
 
@@ -96,44 +166,41 @@ class ExerciseFragment : Fragment() {
             var repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
             var weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
 
-            if (repeats == 0){
+            if (repeats == 0) {
                 repeats = exercise.repetitions
             }
-            if (weight.equals(0.0)){
+            if (weight.equals(0.0)) {
                 weight = exercise.weight
             }
-            if (series == 0){
+            if (series == 0) {
                 series = exercise.series
             }
-
-            if (name.isNotBlank()) {
-                viewModel.addExercise(name, series, repeats, weight)
-                viewModel.deleteExercise(exercise)
-            } else {
-                viewModel.addExercise(exercise.name, series, repeats, weight)
-                viewModel.deleteExercise(exercise)
+            if(name.isBlank()){
+                name=exercise.name
             }
-        }
+            val newExercise = Exercise(exercise.exerciseId,name, series, repeats, weight)
+            viewModel.updateExercise(newExercise)
+            }
 
         builder.setNegativeButton("Cancel", null)
         builder.show()
     }
 
-    private fun deleteExercise(exercise: Exercise){
-        showDialogConfirm{ confirmed ->
-            if (confirmed){
+    private fun deleteExercise(exercise: Exercise) {
+        showDialogConfirm { confirmed ->
+            if (confirmed) {
                 viewModel.deleteExercise(exercise)
             }
         }
     }
 
-    private fun showDialogConfirm(onResult: (Boolean) -> Unit){
+    private fun showDialogConfirm(onResult: (Boolean) -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setMessage("Are you sure you want to delete this exercise?")
-        builder.setPositiveButton("Accept"){_,_ ->
+        builder.setPositiveButton("Accept") { _, _ ->
             onResult(true)
         }
-        builder.setNegativeButton("Cancel") {dialog,_ ->
+        builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.dismiss()
             onResult(false)
         }
@@ -181,13 +248,20 @@ class ExerciseFragment : Fragment() {
             if (name.isNotBlank()) {
                 viewModel.addExercise(name, series, repeats, weight)
             } else {
-                Toast.makeText(requireContext(), "Name can't be empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Name can't be empty", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
         builder.setNegativeButton("Cancel", null)
         builder.show()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }
 
 

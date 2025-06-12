@@ -1,7 +1,6 @@
 package com.adrian.muscleforge.di
 
 import android.content.Context
-import androidx.room.Room
 import com.adrian.muscleforge.data.AppDatabase
 import com.adrian.muscleforge.exercise.dao.ExerciseDao
 import com.adrian.muscleforge.routines.dao.RoutineDao

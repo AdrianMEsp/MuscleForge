@@ -8,13 +8,14 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.adrian.muscleforge.exercise.*
 import com.adrian.muscleforge.exercise.dao.ExerciseDao
+import com.adrian.muscleforge.relation.RoutineExerciseCrossRef
 import com.adrian.muscleforge.routines.Routine
 import com.adrian.muscleforge.routines.dao.RoutineDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Routine::class, Exercise::class], version = 7)
+@Database(entities = [Routine::class, Exercise::class, RoutineExerciseCrossRef::class], version = 11)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
     abstract fun exerciseDao(): ExerciseDao

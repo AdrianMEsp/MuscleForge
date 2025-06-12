@@ -2,6 +2,7 @@ package com.adrian.muscleforge.routines
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.adrian.muscleforge.exercise.Exercise
 import com.adrian.muscleforge.routines.dao.RoutineDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -15,10 +16,19 @@ class RoutineViewModel @Inject constructor(private val routineDao: RoutineDao
     private val _routines = MutableStateFlow<List<Routine>>(emptyList())
     val routines: StateFlow<List<Routine>> = _routines.asStateFlow()
 
+    private val _routineExercises = MutableStateFlow<List<Exercise>>(emptyList())
+    val routineExercises: StateFlow<List<Exercise>> = _routineExercises.asStateFlow()
+
     init {
         loadRoutines()
     }
 
+    fun loadExercisesForRoutine(routineId: Long) {
+        viewModelScope.launch {
+            val routineWithExercises = routineDao.getRoutineWithExercises(routineId)
+            _routineExercises.value = routineWithExercises.exercises
+        }
+    }
 
     //This things connect to de daoRoutine
     private fun loadRoutines() {

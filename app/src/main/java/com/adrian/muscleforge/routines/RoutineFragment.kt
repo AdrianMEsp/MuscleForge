@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.adrian.muscleforge.R
 import com.adrian.muscleforge.databinding.FragmentRoutinesBinding
 import com.adrian.muscleforge.routines.adapter.RoutineAdapter
 
@@ -35,8 +38,31 @@ class RoutineFragment : Fragment() {
         adapter = RoutineAdapter(
             emptyList(),
             onCheckedChanged = { routine -> viewModel.updateRoutine(routine) },
-            onDeleteClick = {routine -> deleteRoutine(routine)},
-            onEditClick = {routine -> editRoutine(routine)}
+
+            // Ver ejercicios de la rutina
+            onRoutineClick = { routine ->
+                val action = RoutineFragmentDirections
+                    .actionRoutineToDetail(routine.routineId)
+                findNavController().navigate(action)
+            },
+
+            // Eliminar rutina
+            onDeleteClick = { routine ->
+                showDialogConfirm { confirmed ->
+                    if (confirmed) {
+                        viewModel.deleteRoutine(routine)
+                    }
+                }
+            },
+
+            // Agregar ejercicios a la rutina
+            onAddExercisesClick = { routine ->
+                val bundle = bundleOf(
+                    "isSelectionMode" to true,
+                    "routineId" to routine.routineId
+                )
+                findNavController().navigate(R.id.exerciseFragment, bundle)
+            }
         )
 
         binding.routineRecyclerView.adapter = adapter
@@ -75,10 +101,6 @@ class RoutineFragment : Fragment() {
         }
 
         builder.show()
-    }
-
-    private fun editRoutine(routine: Routine){
-
     }
 
     private fun deleteRoutine(routine: Routine){

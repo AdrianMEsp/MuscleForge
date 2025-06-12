@@ -6,18 +6,68 @@
     app:startDestination="@id/informationFragment">
 
     <fragment
-        android:id="@+id/exerciseFragment"
-        android:name="com.adrian.muscleforge.exercise.ExerciseFragment"
-        android:label="fragment_exercise"
-        tools:layout="@layout/fragment_exercise" />
-    <fragment
-        android:id="@+id/routineFragment"
-        android:name="com.adrian.muscleforge.routines.RoutineFragment"
-        android:label="fragment_routines"
-        tools:layout="@layout/fragment_routines" />
+        android:id="@+id/routineDetailFragment"
+        android:name="com.adrian.muscleforge.routines.RoutineDetailFragment"
+        android:label="Routine Detail">
+        <argument
+            android:name="routineId"
+            app:argType="long" />
+    </fragment>
+    <!-- Fragmento de Información -->
     <fragment
         android:id="@+id/informationFragment"
         android:name="com.adrian.muscleforge.information.InformationFragment"
-        android:label="fragment_information"
+        android:label="Information"
         tools:layout="@layout/fragment_information" />
+
+    <!-- Fragmento de Rutinas -->
+    <fragment
+        android:id="@+id/routineFragment"
+        android:name="com.adrian.muscleforge.routines.RoutineFragment"
+        android:label="Rutinas"
+        tools:layout="@layout/fragment_routines">
+
+        <!-- Acción para ir al detalle de rutina -->
+        <action
+            android:id="@+id/actionRoutineToDetail"
+            app:destination="@id/routineDetailFragment" />
+
+        <!-- Acción para seleccionar ejercicios y agregarlos a la rutina -->
+        <action
+            android:id="@+id/actionRoutineToExerciseSelection"
+            app:destination="@id/exerciseFragment" />
+    </fragment>
+
+    <!-- Fragmento de Detalle de Rutina -->
+    <fragment
+        android:id="@+id/routineDetailFragment"
+        android:name="com.adrian.muscleforge.routines.RoutineDetailFragment"
+        android:label="Detalle Rutina"
+        tools:layout="@layout/fragment_routine_detail">
+
+        <!-- Argumento obligatorio: rutinaId -->
+        <argument
+            android:name="routineId"
+            app:argType="long" />
+    </fragment>
+
+    <!-- Fragmento de Ejercicios (lista o selección) -->
+    <fragment
+        android:id="@+id/exerciseFragment"
+        android:name="com.adrian.muscleforge.exercise.ExerciseFragment"
+        android:label="Ejercicios"
+        tools:layout="@layout/fragment_exercise">
+
+        <!-- Argumentos opcionales -->
+        <argument
+            android:name="isSelectionMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+        <argument
+            android:name="routineId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+
 </navigation>
