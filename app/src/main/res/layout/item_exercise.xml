@@ -3,75 +3,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    app:cardCornerRadius="16dp"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
     android:layout_marginTop="16dp"
     android:backgroundTint="@color/white"
-    android:layout_height="wrap_content">
+    app:cardCornerRadius="16dp">
 
     <LinearLayout
-        android:id="@+id/exerciseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blueExercise"
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- Título del ejercicio -->
-        <TextView
-            android:id="@+id/tvExerciseName"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="10dp"
-            android:text="Nombre Ejercicio"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/btnDeleteExercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/white"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/blueExercise"
+                />
+
+            <!-- Título del ejercicio -->
+            <TextView
+                android:id="@+id/tvExerciseName"
+                style="@style/itemExercise"
+                android:layout_width="258dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:padding="8dp"
+                android:text="@string/exercise_name"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+
+            <ImageButton
+                android:id="@+id/btnEditExercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                app:tint="@color/white"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/blueExercise"
+                />
+
+        </LinearLayout>
 
         <!-- Cabecera de la tabla -->
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
+                style="@style/itemExercise"
                 android:padding="4dp"
-
-                android:textColor="@color/black"
                 android:text="@string/series"
-                android:textSize="23sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                 />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-
-                android:textColor="@color/black"
+                style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/repetitions"
-                android:textSize="23sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-
-                android:textColor="@color/black"
+                style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/weight"
-                android:textSize="23sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:textColor="@color/black"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Valores de los datos -->
         <LinearLayout
@@ -81,40 +96,36 @@
 
             <TextView
                 android:id="@+id/tvSeries"
-                android:layout_width="0dp"
+                android:layout_width="1dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="@string/series"
-                android:layout_weight="1"
-                android:gravity="center"
+                style="@style/itemExercise"
                 android:padding="4dp"
-                android:textSize="23sp"
+                android:text="@string/series"
+                android:textColor="@color/black"
                 tools:text="3" />
 
             <TextView
                 android:id="@+id/tvRepetitions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
+                style="@style/itemExercise"
+                android:padding="4dp"
                 android:text="@string/repetitions"
                 android:textColor="@color/black"
-                android:padding="4dp"
-                android:textSize="23sp"
                 tools:text="15" />
 
             <TextView
                 android:id="@+id/tvWeight"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/black"
-                android:gravity="center"
+                style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/weight"
-                android:textSize="23sp"
+                android:textColor="@color/black"
                 tools:text="25" />
         </LinearLayout>
 
     </LinearLayout>
+
+
 </androidx.cardview.widget.CardView>

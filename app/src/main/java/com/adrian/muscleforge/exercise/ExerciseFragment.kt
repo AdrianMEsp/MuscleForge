@@ -36,7 +36,10 @@ class ExerciseFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 
-        adapter = ExerciseAdapter(emptyList())
+        adapter = ExerciseAdapter(emptyList(),
+            onEditClick = { exercise -> editExercise(exercise) },
+            onDeleteClick = { exercise -> deleteExercise(exercise) }
+        )
         binding.exerciseRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.exerciseRecyclerView.adapter = adapter
 
@@ -51,6 +54,14 @@ class ExerciseFragment : Fragment() {
                 adapter.updateList(sortedList)
             }
         }
+    }
+
+    private fun editExercise(exercise: Exercise){
+
+    }
+
+    private fun deleteExercise(exercise: Exercise){
+        viewModel.deleteExercise(exercise)
     }
 
     private fun showDialog() {
