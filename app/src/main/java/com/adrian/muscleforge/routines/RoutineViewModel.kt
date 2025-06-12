@@ -36,6 +36,12 @@ class RoutineViewModel @Inject constructor(private val routineDao: RoutineDao
         }
     }
 
+    fun deleteRoutine(routine: Routine){
+        viewModelScope.launch {
+            routineDao.delete(routine)
+        }
+    }
+
     fun addRoutine(name: String) {
         viewModelScope.launch {
             val newRoutine = Routine(name = name)

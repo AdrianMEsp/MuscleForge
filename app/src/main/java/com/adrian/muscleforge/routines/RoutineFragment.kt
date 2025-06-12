@@ -32,9 +32,12 @@ class RoutineFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = RoutineAdapter(emptyList()) {
-            updatedRoutine -> viewModel.updateRoutine(updatedRoutine)
-        }
+        adapter = RoutineAdapter(
+            emptyList(),
+            onCheckedChanged = { routine -> viewModel.updateRoutine(routine) },
+            onDeleteClick = {routine -> deleteRoutine(routine)}
+        )
+
         binding.routineRecyclerView.adapter = adapter
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -70,6 +73,27 @@ class RoutineFragment : Fragment() {
             dialog.cancel()
         }
 
+        builder.show()
+    }
+
+    private fun deleteRoutine(routine: Routine){
+        showDialogConfirm { confirmed ->
+                if(confirmed){
+                    viewModel.deleteRoutine(routine)
+                }
+            }
+    }
+
+    private fun showDialogConfirm(onResult: (Boolean) -> Unit) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Are you sure you want to delete this routine?")
+        builder.setPositiveButton("Accept"){_,_ ->
+            onResult(true)
+        }
+        builder.setNegativeButton("Cancel") {dialog,_ ->
+            dialog.dismiss()
+            onResult(false)
+        }
         builder.show()
     }
 

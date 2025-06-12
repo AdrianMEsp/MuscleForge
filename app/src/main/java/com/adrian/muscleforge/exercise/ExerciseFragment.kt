@@ -56,12 +56,76 @@ class ExerciseFragment : Fragment() {
         }
     }
 
+    //optimizar luego
     private fun editExercise(exercise: Exercise){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(exercise.name)
 
+        // Creamos un layout vertical para los campos
+        val layout = LinearLayout(requireContext())
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(50, 40, 50, 10) // márgenes opcionales
+
+        val inputName = EditText(requireContext()).apply { hint = "Name of the Exercise" }
+        val inputSeries = EditText(requireContext()).apply {
+            hint = exercise.series.toString()
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        val inputRepeats = EditText(requireContext()).apply {
+            hint = exercise.repetitions.toString()
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        val inputWeight = EditText(requireContext()).apply {
+            hint = exercise.weight.toString()
+            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        }
+
+        layout.addView(inputName)
+        layout.addView(inputSeries)
+        layout.addView(inputRepeats)
+        layout.addView(inputWeight)
+
+        builder.setView(layout)
+
+        builder.setPositiveButton("Save") { _, _ ->
+//            makes the first char uppercase so the list is always sorted
+            val name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
+
+            val series = inputSeries.text.toString().toIntOrNull() ?: 0
+            val repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
+            val weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
+
+            if (name.isNotBlank()) {
+                viewModel.addExercise(name, series, repeats, weight)
+                viewModel.deleteExercise(exercise)
+            } else {
+                Toast.makeText(requireContext(), "Name can't be empty", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
     }
 
     private fun deleteExercise(exercise: Exercise){
-        viewModel.deleteExercise(exercise)
+        showDialogConfirm{ confirmed ->
+            if (confirmed){
+                viewModel.deleteExercise(exercise)
+            }
+        }
+    }
+
+    private fun showDialogConfirm(onResult: (Boolean) -> Unit){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Are you sure you want to delete this exercise?")
+        builder.setPositiveButton("Accept"){_,_ ->
+            onResult(true)
+        }
+        builder.setNegativeButton("Cancel") {dialog,_ ->
+            dialog.dismiss()
+            onResult(false)
+        }
+        builder.show()
     }
 
     private fun showDialog() {
