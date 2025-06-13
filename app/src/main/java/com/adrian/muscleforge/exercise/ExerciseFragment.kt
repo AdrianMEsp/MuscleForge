@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.muscleforge.databinding.FragmentExerciseBinding
 import com.adrian.muscleforge.exercise.adapter.ExerciseAdapter
 import com.adrian.muscleforge.relation.RoutineExerciseCrossRef
+import com.adrian.muscleforge.utils.DialogHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -172,24 +173,11 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun deleteExercise(exercise: Exercise) {
-        showDialogConfirm { confirmed ->
+        DialogHelper.showDialogConfirm(requireContext()) { confirmed ->
             if (confirmed) {
                 viewModel.deleteExercise(exercise)
             }
         }
-    }
-
-    private fun showDialogConfirm(onResult: (Boolean) -> Unit) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Are you sure you want to delete this exercise?")
-        builder.setPositiveButton("Accept") { _, _ ->
-            onResult(true)
-        }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-            onResult(false)
-        }
-        builder.show()
     }
 
     private fun showDialog() {

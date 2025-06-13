@@ -1,11 +1,13 @@
 package com.adrian.muscleforge.routines
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.core.os.bundleOf
@@ -19,6 +21,7 @@ import com.adrian.muscleforge.R
 import com.adrian.muscleforge.databinding.FragmentRoutineDetailBinding
 import com.adrian.muscleforge.exercise.Exercise
 import com.adrian.muscleforge.exercise.adapter.ExerciseAdapter
+import com.adrian.muscleforge.utils.DialogHelper
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -75,19 +78,27 @@ class RoutineDetailFragment : Fragment() {
         }
     }
 
-
-    private fun showDialogConfirm(onResult: (Boolean) -> Unit) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Are you sure you want to delete this exercise from the routine?")
-        builder.setPositiveButton("Accept") { _, _ ->
-            onResult(true)
-        }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-            onResult(false)
-        }
-        builder.show()
-    }
+//    private fun showDialogConfirm(onResult: (Boolean) -> Unit){
+//        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_confirm, null)
+//
+//        val dialog = AlertDialog.Builder(requireContext())
+//            .setView(dialogView)
+//            .setCancelable(false)
+//            .create()
+//
+//        val btnAccept:Button = dialogView.findViewById(R.id.btnAccept)
+//        val btnCancel:Button = dialogView.findViewById(R.id.btnCancel)
+//
+//        btnAccept.setOnClickListener {
+//            onResult(true)
+//            dialog.dismiss()
+//        }
+//        btnCancel.setOnClickListener {
+//            onResult(false)
+//            dialog.dismiss()
+//        }
+//        dialog.show()
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -95,7 +106,8 @@ class RoutineDetailFragment : Fragment() {
     }
 
     private fun deleteExercise(exercise: Exercise, routineId: Long){
-        showDialogConfirm { confirmed ->
+//        object in Utils, it's a personal dialog
+        DialogHelper.showDialogConfirm(requireContext()) { confirmed ->
             if (confirmed){
                 viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId)
             }
