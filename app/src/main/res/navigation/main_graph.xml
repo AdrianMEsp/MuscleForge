@@ -5,14 +5,14 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/informationFragment">
 
-    <fragment
-        android:id="@+id/routineDetailFragment"
-        android:name="com.adrian.muscleforge.routines.RoutineDetailFragment"
-        android:label="Routine Detail">
-        <argument
-            android:name="routineId"
-            app:argType="long" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/routineDetailFragment"-->
+<!--        android:name="com.adrian.muscleforge.routines.RoutineDetailFragment"-->
+<!--        android:label="Routine Detail">-->
+<!--        <argument-->
+<!--            android:name="routineId"-->
+<!--            app:argType="long" />-->
+<!--    </fragment>-->
     <!-- Fragmento de Información -->
     <fragment
         android:id="@+id/informationFragment"
@@ -49,6 +49,9 @@
         <argument
             android:name="routineId"
             app:argType="long" />
+        <argument
+            android:name="routineName"
+            app:argType="string"/>
     </fragment>
 
     <!-- Fragmento de Ejercicios (lista o selección) -->

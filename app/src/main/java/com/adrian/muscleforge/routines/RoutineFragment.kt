@@ -42,7 +42,10 @@ class RoutineFragment : Fragment() {
             // Ver ejercicios de la rutina
             onRoutineClick = { routine ->
                 val action = RoutineFragmentDirections
-                    .actionRoutineToDetail(routine.routineId)
+                    .actionRoutineToDetail(
+                        routineId = routine.routineId,
+                        routineName = routine.name
+                    )
                 findNavController().navigate(action)
             },
 

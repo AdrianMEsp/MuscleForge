@@ -103,27 +103,12 @@ class ExerciseFragment : Fragment() {
                 } else {
                     // Aquí colectas el Flow mientras el lifecycle esté STARTED
                     viewModel.exercises.collect { exercises ->
-                        Log.d("ExerciseFragment", "Ejercicios recibidos: ${exercises.size}")
                         adapter.updateList(exercises.sortedBy { it.name })
                     }
                 }
             }
         }
     }
-
-
-//    private fun associateExerciseWithRoutine(exerciseId: Long, routineId: Long) {
-//        viewModel.insertRoutineExerciseCrossRef(
-//            RoutineExerciseCrossRef(routineId = routineId, exerciseId = exerciseId)
-//        )
-//        Toast.makeText(requireContext(), "Ejercicio añadido a la rutina", Toast.LENGTH_SHORT).show()
-//
-//        // Refrescar la lista de ejercicios disponibles
-//        lifecycleScope.launch {
-//            val updatedList = viewModel.getUnassignedExercises(routineId)
-//            adapter.updateList(updatedList.sortedBy { it.name })
-//        }
-//    }
 
 
     //optimizar luego

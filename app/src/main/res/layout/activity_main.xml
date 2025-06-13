@@ -6,12 +6,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="25dp"
     tools:context=".home.MainActivity">
 
     <FrameLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
+        android:layout_marginTop="32dp"
         android:layout_height="wrap_content"
         android:background="@color/primaryDark"
         app:layout_constraintEnd_toEndOf="parent"

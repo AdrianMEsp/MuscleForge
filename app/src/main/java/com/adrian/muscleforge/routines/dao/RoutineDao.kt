@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RoutineDao {
     @Insert
-    suspend fun insertRoutine(routine: Routine)
+    suspend fun addRoutine(routine: Routine)
 
     @Query("SELECT * FROM routines")
     fun getAllRoutines(): Flow<List<Routine>>
@@ -33,7 +33,12 @@ interface RoutineDao {
     suspend fun insertRoutineExerciseCrossRef(crossRef: RoutineExerciseCrossRef)
 
     @Transaction
-    @Query("SELECT * FROM routines WHERE routineId = :id")
+    @Query("SELECT * FROM routines " +
+            "WHERE routineId = :id")
     suspend fun getRoutineWithExercises(id: Long): RoutineWithExercises
+
+    @Query("DELETE FROM routine_exercise_cross_ref " +
+            "WHERE routineId = :routineId AND exerciseId = :exerciseId")
+    suspend fun deleteExerciseFromRoutine(routineId: Long, exerciseId: Long)
 
 }

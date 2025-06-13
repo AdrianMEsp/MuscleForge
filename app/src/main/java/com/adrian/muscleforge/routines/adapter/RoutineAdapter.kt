@@ -22,6 +22,7 @@ class RoutineAdapter(
 
     inner class RoutineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.tvRoutineName)
+//        val textView2: TextView = itemView.findViewById(R.id.tvRoutineNameInRoutine)
         val checkbox: CheckBox = itemView.findViewById(R.id.checkboxRoutine)
         val card: CardView = itemView.findViewById(R.id.cardViewRoutine)
         val btnEdit: ImageButton = itemView.findViewById(R.id.btnAddExerToRoutine)
@@ -29,6 +30,7 @@ class RoutineAdapter(
 
         fun bind(routine: Routine) {
             textView.text = routine.name
+//            textView2.text = routine.name
 
             checkbox.setOnCheckedChangeListener(null)
             checkbox.isChecked = routine.isChecked

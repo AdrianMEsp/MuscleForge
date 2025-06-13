@@ -53,7 +53,6 @@ class ExerciseViewModel @Inject constructor( private val exerciseDao: ExerciseDa
         viewModelScope.launch {
             val newExercise = Exercise(name = name, series = series, repetitions = repeats, weight = weight)
             exerciseDao.addExercise(newExercise)
-            Log.d("ExerciseViewModel", "Ejercicio insertado: $newExercise")
             loadExercises()
         }
     }

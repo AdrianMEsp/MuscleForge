@@ -4,20 +4,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrian.muscleforge.exercise.Exercise
 import com.adrian.muscleforge.routines.dao.RoutineDao
+import com.adrian.muscleforge.routines.repository.RoutineRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RoutineViewModel @Inject constructor(private val routineDao: RoutineDao
+class RoutineViewModel @Inject constructor(private val repository: RoutineRepository
 ) : ViewModel() {
 
     private val _routines = MutableStateFlow<List<Routine>>(emptyList())
     val routines: StateFlow<List<Routine>> = _routines.asStateFlow()
 
-    private val _routineExercises = MutableStateFlow<List<Exercise>>(emptyList())
-    val routineExercises: StateFlow<List<Exercise>> = _routineExercises.asStateFlow()
+    private val _exercisesInRoutine = MutableStateFlow<List<Exercise>>(emptyList())
+    val exercisesInRoutine: StateFlow<List<Exercise>> = _exercisesInRoutine.asStateFlow()
 
     init {
         loadRoutines()
@@ -25,15 +26,15 @@ class RoutineViewModel @Inject constructor(private val routineDao: RoutineDao
 
     fun loadExercisesForRoutine(routineId: Long) {
         viewModelScope.launch {
-            val routineWithExercises = routineDao.getRoutineWithExercises(routineId)
-            _routineExercises.value = routineWithExercises.exercises
+            val routineWithExercises = repository.getRoutineWithExercises(routineId)
+            _exercisesInRoutine.value = routineWithExercises.exercises
         }
     }
 
     //This things connect to de daoRoutine
     private fun loadRoutines() {
         viewModelScope.launch {
-            routineDao.getAllRoutines()
+            repository.getAllRoutines()
                 .collect { list ->
                     _routines.value = list
                 }
@@ -42,21 +43,44 @@ class RoutineViewModel @Inject constructor(private val routineDao: RoutineDao
 
     fun updateRoutine(routine: Routine){
         viewModelScope.launch {
-            routineDao.updateRoutine(routine)
+            repository.updateRoutine(routine)
         }
     }
 
     fun deleteRoutine(routine: Routine){
         viewModelScope.launch {
-            routineDao.delete(routine)
+            repository.deleteRoutine(routine)
         }
     }
 
     fun addRoutine(name: String) {
         viewModelScope.launch {
             val newRoutine = Routine(name = name)
-            routineDao.insertRoutine(newRoutine)
+            repository.addRoutine(newRoutine)
             // No hace falta volver a cargar manualmente: el Flow se actualiza solo
+        }
+    }
+
+//    this delete only from the routine
+    fun deleteExerciseFromRoutine(exerciseId: Long, routineId: Long){
+        viewModelScope.launch {
+            repository.removeExerciseFromRoutine(exerciseId,routineId)
+            loadExercisesForRoutine(routineId)
+        }
+    }
+
+
+    //    this edit that exercise whatever he is
+    fun editExercise(exercise: Exercise, id:Long){
+        viewModelScope.launch {
+            repository.updateExercise(exercise)
+            loadExercisesForRoutine(id)
+
+
+//            this 2 lines updates the list at edit time
+//            _exercisesInRoutine.value = _exercisesInRoutine.value.map {
+//                if (it.exerciseId == exercise.exerciseId ) exercise else it
+//            }
         }
     }
 }

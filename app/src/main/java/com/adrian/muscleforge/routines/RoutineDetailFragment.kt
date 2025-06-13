@@ -1,9 +1,13 @@
 package com.adrian.muscleforge.routines
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.muscleforge.R
 import com.adrian.muscleforge.databinding.FragmentRoutineDetailBinding
+import com.adrian.muscleforge.exercise.Exercise
 import com.adrian.muscleforge.exercise.adapter.ExerciseAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,6 +33,7 @@ class RoutineDetailFragment : Fragment() {
     // Safe Args
     private val args: RoutineDetailFragmentArgs by navArgs()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -36,13 +42,17 @@ class RoutineDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Obtener ID de rutina desde SafeArgs
+        // Obtener ID y NAME de rutina desde SafeArgs (especificado en maingraph)
         val routineId = args.routineId
+        val routineName = args.routineName
+
+        binding.tvRoutineNameInRoutine.text = routineName
 
         adapter = ExerciseAdapter(
             emptyList(),
-            onEditClick = {},
-            onDeleteClick = {},
+            onEditClick = { exercise -> editExercise(exercise,routineId) },
+            onDeleteClick = { exercise ->
+                viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId) },
             onItemClick = {}
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -60,7 +70,7 @@ class RoutineDetailFragment : Fragment() {
         // Cargar ejercicios asignados
         viewModel.loadExercisesForRoutine(routineId)
         lifecycleScope.launchWhenStarted {
-            viewModel.routineExercises.collect { exercises ->
+            viewModel.exercisesInRoutine.collect { exercises ->
                 adapter.updateList(exercises.sortedBy { it.name })
             }
         }
@@ -69,5 +79,65 @@ class RoutineDetailFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun editExercise(exercise: Exercise, routineId: Long) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(exercise.name)
+
+        // Creamos un layout vertical para los campos
+        val layout = LinearLayout(requireContext())
+        layout.orientation = LinearLayout.VERTICAL
+        layout.setPadding(50, 40, 50, 10) // márgenes opcionales
+
+        val inputName = EditText(requireContext()).apply { hint = "Name of the Exercise" }
+        val inputSeries = EditText(requireContext()).apply {
+            hint = exercise.series.toString()
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        val inputRepeats = EditText(requireContext()).apply {
+            hint = exercise.repetitions.toString()
+            inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        val inputWeight = EditText(requireContext()).apply {
+            hint = exercise.weight.toString()
+            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        }
+
+        layout.addView(inputName)
+        layout.addView(inputSeries)
+        layout.addView(inputRepeats)
+        layout.addView(inputWeight)
+
+        builder.setView(layout)
+
+        builder.setPositiveButton("Save") { _, _ ->
+
+//            makes the first char uppercase so the list is always sorted
+            var name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
+
+            var series = inputSeries.text.toString().toIntOrNull() ?: 0
+            var repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
+            var weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
+
+            if (repeats == 0) {
+                repeats = exercise.repetitions
+            }
+            if (weight.equals(0.0)) {
+                weight = exercise.weight
+            }
+            if (series == 0) {
+                series = exercise.series
+            }
+            if (name.isBlank()) {
+                name = exercise.name
+            }
+            val newExercise = Exercise(exercise.exerciseId, name, series, repeats, weight)
+
+            viewModel.editExercise(newExercise,routineId)
+        }
+
+        builder.setNegativeButton("Cancel", null)
+        builder.show()
     }
 }
