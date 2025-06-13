@@ -14,7 +14,7 @@
             android:id="@+id/tvRoutineNameInRoutine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:textColor="@color/white"
             android:text="@string/routine_name"
             android:textStyle="bold"

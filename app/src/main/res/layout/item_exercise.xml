@@ -50,7 +50,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="25sp" />
 
             <ImageButton
                 android:id="@+id/btnEditExercise"

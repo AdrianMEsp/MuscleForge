@@ -42,7 +42,7 @@ class RoutineDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Obtener ID y NAME de rutina desde SafeArgs (especificado en maingraph)
+//        gets ID and NAME from routine from SafeArgs(whitin main_grafp)
         val routineId = args.routineId
         val routineName = args.routineName
 
@@ -51,14 +51,13 @@ class RoutineDetailFragment : Fragment() {
         adapter = ExerciseAdapter(
             emptyList(),
             onEditClick = { exercise -> editExercise(exercise,routineId) },
-            onDeleteClick = { exercise ->
-                viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId) },
+            onDeleteClick = { exercise -> deleteExercise(exercise,routineId) },
             onItemClick = {}
         )
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        // FAB para agregar ejercicios a esta rutina
+        // FAB(Floating action button) to add exercises to this routine
         binding.fabAddExercise.setOnClickListener {
             val bundle = bundleOf(
                 "isSelectionMode" to true,
@@ -67,7 +66,7 @@ class RoutineDetailFragment : Fragment() {
             findNavController().navigate(R.id.exerciseFragment, bundle)
         }
 
-        // Cargar ejercicios asignados
+//        Load asigned exercises for this routine
         viewModel.loadExercisesForRoutine(routineId)
         lifecycleScope.launchWhenStarted {
             viewModel.exercisesInRoutine.collect { exercises ->
@@ -76,9 +75,31 @@ class RoutineDetailFragment : Fragment() {
         }
     }
 
+
+    private fun showDialogConfirm(onResult: (Boolean) -> Unit) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Are you sure you want to delete this exercise from the routine?")
+        builder.setPositiveButton("Accept") { _, _ ->
+            onResult(true)
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+            onResult(false)
+        }
+        builder.show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun deleteExercise(exercise: Exercise, routineId: Long){
+        showDialogConfirm { confirmed ->
+            if (confirmed){
+                viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId)
+            }
+        }
     }
 
     private fun editExercise(exercise: Exercise, routineId: Long) {

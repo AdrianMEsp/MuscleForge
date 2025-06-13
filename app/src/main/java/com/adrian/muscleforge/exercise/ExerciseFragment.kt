@@ -225,7 +225,7 @@ class ExerciseFragment : Fragment() {
 
 
         builder.setPositiveButton("Save") { _, _ ->
-            val name = inputName.text.toString()
+            val name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
             val series = inputSeries.text.toString().toIntOrNull() ?: 0
             val repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
             val weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
