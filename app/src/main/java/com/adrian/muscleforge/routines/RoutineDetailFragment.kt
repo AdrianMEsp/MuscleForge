@@ -27,6 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoutineDetailFragment : Fragment() {
 
+    val MESSAGE_DELETE_CONFIRMATION = "Are you sure you want to delete this exercise?"
+
     private var _binding: FragmentRoutineDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoutineViewModel by viewModels()
@@ -78,28 +80,6 @@ class RoutineDetailFragment : Fragment() {
         }
     }
 
-//    private fun showDialogConfirm(onResult: (Boolean) -> Unit){
-//        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_confirm, null)
-//
-//        val dialog = AlertDialog.Builder(requireContext())
-//            .setView(dialogView)
-//            .setCancelable(false)
-//            .create()
-//
-//        val btnAccept:Button = dialogView.findViewById(R.id.btnAccept)
-//        val btnCancel:Button = dialogView.findViewById(R.id.btnCancel)
-//
-//        btnAccept.setOnClickListener {
-//            onResult(true)
-//            dialog.dismiss()
-//        }
-//        btnCancel.setOnClickListener {
-//            onResult(false)
-//            dialog.dismiss()
-//        }
-//        dialog.show()
-//    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -107,7 +87,7 @@ class RoutineDetailFragment : Fragment() {
 
     private fun deleteExercise(exercise: Exercise, routineId: Long){
 //        object in Utils, it's a personal dialog
-        DialogHelper.showDialogConfirm(requireContext()) { confirmed ->
+        DialogHelper.showDialogConfirm(requireContext(), MESSAGE_DELETE_CONFIRMATION) { confirmed ->
             if (confirmed){
                 viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId)
             }

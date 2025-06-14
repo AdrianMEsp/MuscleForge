@@ -26,6 +26,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ExerciseFragment : Fragment() {
 
+    val MESSAGE_DELETE_CONFIRMATION = "Are you sure you want to delete this exercise?"
+
     private var _binding: FragmentExerciseBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ExerciseViewModel by viewModels()
@@ -51,7 +53,7 @@ class ExerciseFragment : Fragment() {
             exercises = emptyList(),
             onEditClick = { exercise -> if (!isSelectionMode) editExercise(exercise) },
             onDeleteClick = { exercise -> if (!isSelectionMode) deleteExercise(exercise) },
-            onItemClick = { /* Puedes usarlo para selección visual si lo deseas */ },
+            onItemClick = {  },
             isSelectionMode = isSelectionMode
         )
 
@@ -66,7 +68,6 @@ class ExerciseFragment : Fragment() {
                 routineId?.let { id ->
                     val selected = adapter.getSelectedExercises()
                     if (selected.isEmpty()) {
-                        Toast.makeText(requireContext(), "Selecciona al menos un ejercicio", Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
 
@@ -76,7 +77,6 @@ class ExerciseFragment : Fragment() {
                                 RoutineExerciseCrossRef(routineId = id, exerciseId = it.exerciseId)
                             )
                         }
-                        Toast.makeText(requireContext(), "Ejercicios añadidos a la rutina", Toast.LENGTH_SHORT).show()
 
                         // Recargar lista de no asignados
                         val updatedList = viewModel.getUnassignedExercises(id)
@@ -88,7 +88,7 @@ class ExerciseFragment : Fragment() {
         } else {
             binding.btnConfirmSelection.visibility = View.GONE
             binding.fabAddExercise.setOnClickListener {
-                showDialog()
+                showDialogCreateExercise()
             }
         }
         loadExercises()
@@ -173,61 +173,18 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun deleteExercise(exercise: Exercise) {
-        DialogHelper.showDialogConfirm(requireContext()) { confirmed ->
+        DialogHelper.showDialogConfirm(requireContext(), MESSAGE_DELETE_CONFIRMATION) { confirmed ->
             if (confirmed) {
                 viewModel.deleteExercise(exercise)
             }
         }
     }
 
-    private fun showDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("New Exercise")
-
-        // Creamos un layout vertical para los campos
-        val layout = LinearLayout(requireContext())
-        layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(50, 40, 50, 10) // márgenes opcionales
-
-        val inputName = EditText(requireContext()).apply { hint = "Name of the Exercise" }
-        val inputSeries = EditText(requireContext()).apply {
-            hint = "Number of series"
-            inputType = InputType.TYPE_CLASS_NUMBER
+    private fun showDialogCreateExercise() {
+        DialogHelper.showDialogCreateExercise(requireContext()) {
+            exercise ->
+            exercise?.let { viewModel.addExercise(exercise) }
         }
-        val inputRepeats = EditText(requireContext()).apply {
-            hint = "Number of repeats"
-            inputType = InputType.TYPE_CLASS_NUMBER
-        }
-        val inputWeight = EditText(requireContext()).apply {
-            hint = "Weight"
-            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        layout.addView(inputName)
-        layout.addView(inputSeries)
-        layout.addView(inputRepeats)
-        layout.addView(inputWeight)
-
-        builder.setView(layout)
-
-
-
-        builder.setPositiveButton("Save") { _, _ ->
-            val name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
-            val series = inputSeries.text.toString().toIntOrNull() ?: 0
-            val repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
-            val weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
-
-            if (name.isNotBlank()) {
-                viewModel.addExercise(name, series, repeats, weight)
-            } else {
-                Toast.makeText(requireContext(), "Name can't be empty", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        }
-
-        builder.setNegativeButton("Cancel", null)
-        builder.show()
     }
 
     override fun onDestroyView() {

@@ -69,18 +69,11 @@ class RoutineViewModel @Inject constructor(private val repository: RoutineReposi
         }
     }
 
-
     //    this edit that exercise whatever he is
     fun editExercise(exercise: Exercise, id:Long){
         viewModelScope.launch {
             repository.updateExercise(exercise)
             loadExercisesForRoutine(id)
-
-
-//            this 2 lines updates the list at edit time
-//            _exercisesInRoutine.value = _exercisesInRoutine.value.map {
-//                if (it.exerciseId == exercise.exerciseId ) exercise else it
-//            }
         }
     }
 }

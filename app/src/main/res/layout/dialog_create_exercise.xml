@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="false"
+    android:layout_marginTop="30dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_exercise_dialog"
+        android:orientation="vertical"
+        android:clipToOutline="true"
+        android:padding="16dp">
+
+        <TextView
+            style="@style/itemExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/newRoutine"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/exerciseName"
+            style="@style/itemExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/exercise_name" />
+
+        <EditText
+            android:id="@+id/exerciseSeries"
+            style="@style/itemExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/number_of_series" />
+
+        <EditText
+            android:id="@+id/exerciseRepetitions"
+            style="@style/itemExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/number_of_repetitions" />
+
+        <EditText
+            android:id="@+id/exerciseWeight"
+            style="@style/itemExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/weight" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="5dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:backgroundTint="@color/blue"
+                android:text="@string/confirm" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/blue"
+                android:text="@string/cancel" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

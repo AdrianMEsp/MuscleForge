@@ -1,12 +1,11 @@
 package com.adrian.muscleforge.routines
 
-import android.app.AlertDialog
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.muscleforge.R
 import com.adrian.muscleforge.databinding.FragmentRoutinesBinding
 import com.adrian.muscleforge.routines.adapter.RoutineAdapter
+import com.adrian.muscleforge.utils.DialogHelper
 
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RoutineFragment : Fragment() {
+
+    val MESAGGE_DELETE_ROUTINE= "Are you sure you want to delete this routine?"
 
     private var _binding: FragmentRoutinesBinding? = null
     private val binding get() = _binding!!
@@ -51,7 +53,7 @@ class RoutineFragment : Fragment() {
 
             // Eliminar rutina
             onDeleteClick = { routine ->
-                showDialogConfirm { confirmed ->
+                DialogHelper.showDialogConfirm(requireContext(), MESAGGE_DELETE_ROUTINE) { confirmed ->
                     if (confirmed) {
                         viewModel.deleteRoutine(routine)
                     }
@@ -83,48 +85,13 @@ class RoutineFragment : Fragment() {
         }
     }
 
-    //to create a new routine only with name
-    private fun showDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("New Routine")
-
-        val input = EditText(requireContext())
-        input.hint = "Name of the Routine"
-        builder.setView(input)
-
-        builder.setPositiveButton("Save") { _, _ ->
-            val name = input.text.toString()
-            if (name.isNotBlank()) {
+    private fun showDialog(){
+        DialogHelper.showDialogCreateRoutine(requireContext()) {
+            name ->
+            name?.let {
                 viewModel.addRoutine(name)
             }
         }
-
-        builder.setNegativeButton("Calcel") { dialog, _ ->
-            dialog.cancel()
-        }
-
-        builder.show()
-    }
-
-    private fun deleteRoutine(routine: Routine){
-        showDialogConfirm { confirmed ->
-                if(confirmed){
-                    viewModel.deleteRoutine(routine)
-                }
-            }
-    }
-
-    private fun showDialogConfirm(onResult: (Boolean) -> Unit) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setMessage("Are you sure you want to delete this routine?")
-        builder.setPositiveButton("Accept"){_,_ ->
-            onResult(true)
-        }
-        builder.setNegativeButton("Cancel") {dialog,_ ->
-            dialog.dismiss()
-            onResult(false)
-        }
-        builder.show()
     }
 
     override fun onDestroyView() {

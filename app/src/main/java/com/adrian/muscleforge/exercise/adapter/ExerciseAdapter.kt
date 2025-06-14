@@ -46,6 +46,15 @@ class ExerciseAdapter(
         holder.reps.text = exercises[position].repetitions.toString()
         holder.weight.text = exercises[position].weight.toString()
 
+//   this two if makes delete and edit icon invisible when the user is adding exercises to one routine
+        if (isSelectionMode) {
+            holder.btnDelete.visibility = View.GONE
+            holder.btnEdit.visibility = View.GONE
+        } else {
+            holder.btnDelete.visibility = View.VISIBLE
+            holder.btnEdit.visibility = View.VISIBLE
+        }
+
         holder.btnEdit.setOnClickListener {
             onEditClick(exercise) }
 

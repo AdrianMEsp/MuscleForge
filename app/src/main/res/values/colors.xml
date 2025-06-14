@@ -12,7 +12,9 @@
     <color name="black_alpha">#98000000</color>
     <color name="blue">#27277E</color>
     <color name="blueExercise">#2F2F81</color>
-
+    <color name="grey">#373434</color>
+    <color name="blue_green">#174737</color>
+    <color name="bluelight">#176695</color>
 
 
 </resources>
