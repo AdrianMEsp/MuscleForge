@@ -16,5 +16,13 @@
     <color name="blue_green">#174737</color>
     <color name="bluelight">#176695</color>
 
+<!--add somo color TODO: -->
+    <color name="black">#98000000</color>
+    <color name="pinki">#441049</color>
+    <color name="light_pink">#783AE4</color>
+    <color name="dark_lightblue">#164961</color>
+    <color name="blue_green">#174737</color>
+    <color name="bluelight">#176695</color>
+
 
 </resources>
