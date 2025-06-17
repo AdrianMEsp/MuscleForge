@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
@@ -22,6 +21,7 @@ object DialogHelper {
             .setCancelable(false)
             .create()
 
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val tvMessage: TextView = dialogView.findViewById(R.id.etHintDeleteMessage)
         val btnAccept: Button = dialogView.findViewById(R.id.btnAccept)
         val btnCancel: Button = dialogView.findViewById(R.id.btnCancel)
