@@ -7,7 +7,6 @@
     android:background="@color/primary"
     tools:context=".exercise.ExerciseFragment">
 
-
 <!--    <androidx.appcompat.widget.SearchView-->
 <!--        android:id="@+id/searchView"-->
 <!--        android:layout_width="0dp"-->

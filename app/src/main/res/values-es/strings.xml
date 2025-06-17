@@ -1,4 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MuscleForge</string>
+    <string name="app_name" translatable="false">MuscleForge</string>
+    <string name="home">Inicio</string>
+
+    <string name="exercises">Ejercicios</string>
+    <string name="routines">Rutinas</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="start">Inicio</string>
+    <string name="stop">Parar</string>
+    <string name="pause">Pausar</string>
+
+    <string name="hint">Introduce nombre de nueva rutina</string>
+    <string name="confirm">Confirmar</string>
+    <string name="name_of_routine">Nombre de Rutina</string>
+
+    <string name="series">Series</string>
+    <string name="repetitions">Repeticiones</string>
+    <string name="weight">Peso</string>
+
+    <string name="exercise_name">Nombre del Ejercicio</string>
+    <string name="routine">Rutina</string>
+
+    <string name="newExercise">Nuevo ejercicio</string>
+    <string name="add_exercise">Añadir ejercicio</string>
+    <string name="routine_name">Nombre de la Rutina</string>
+    <string name="dialog_confirm_exercise_in_routine">
+        ¿Estas seguro que quieres eliminar este ejercicio de la rutina?</string>
+    <string name="dialog_confirm_exercise">
+        ¿Estas seguro que quiere eliminar este ejercicio?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="dialog_confirm_routine">
+        ¿Estas seguro que quiere eliminar esta rutina?</string>
+    <string name="accept">Aceptar</string>
+    <string name="number_of_series">Numero de Series</string>
+    <string name="number_of_repetitions">Numero de Repeticiones</string>
 </resources>
