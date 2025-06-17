@@ -3,14 +3,13 @@ package com.adrian.muscleforge.exercise
 import android.app.AlertDialog
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -35,6 +34,9 @@ class ExerciseFragment : Fragment() {
 
     private var isSelectionMode = false
     private var routineId: Long? = null
+
+    //for the searchView
+    private var currentExercises: List<Exercise> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -92,6 +94,20 @@ class ExerciseFragment : Fragment() {
             }
         }
         loadExercises()
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                val filteredList = currentExercises.filter{
+                    it.name.contains(newText.orEmpty(), ignoreCase = true)
+                }
+                adapter.updateList(filteredList)
+                return true
+            }
+        })
     }
 
     private fun loadExercises() {
@@ -100,10 +116,12 @@ class ExerciseFragment : Fragment() {
                 if (isSelectionMode && routineId != null) {
                     // Solo una vez obtienes la lista suspend
                     val unassigned = viewModel.getUnassignedExercises(routineId!!)
+                    currentExercises = unassigned.sortedBy { it.name } // for the searchView
                     adapter.updateList(unassigned.sortedBy { it.name })
                 } else {
                     // Aquí colectas el Flow mientras el lifecycle esté STARTED
                     viewModel.exercises.collect { exercises ->
+                        currentExercises = exercises.sortedBy { it.name } // for the searchView
                         adapter.updateList(exercises.sortedBy { it.name })
                     }
                 }
@@ -112,7 +130,7 @@ class ExerciseFragment : Fragment() {
     }
 
 
-    //optimizar luego
+//    TODO: crear una vista personalizada para este o usar la misma que usamos para crear
     private fun editExercise(exercise: Exercise) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(exercise.name)
