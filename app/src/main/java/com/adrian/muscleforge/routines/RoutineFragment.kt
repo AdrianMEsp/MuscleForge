@@ -53,7 +53,7 @@ class RoutineFragment : Fragment() {
 
             // Eliminar rutina
             onDeleteClick = { routine ->
-                DialogHelper.showDialogConfirm(requireContext(), MESAGGE_DELETE_ROUTINE) { confirmed ->
+                DialogHelper.showDialogConfirmDeleteRoutine(requireContext()) { confirmed ->
                     if (confirmed) {
                         viewModel.deleteRoutine(routine)
                     }
@@ -74,7 +74,7 @@ class RoutineFragment : Fragment() {
         binding.routineRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         binding.createNewRoutine.setOnClickListener {
-            showDialog()
+            createRoutine()
         }
 
         // Observar rutinas
@@ -85,7 +85,7 @@ class RoutineFragment : Fragment() {
         }
     }
 
-    private fun showDialog(){
+    private fun createRoutine(){
         DialogHelper.showDialogCreateRoutine(requireContext()) {
             name ->
             name?.let {

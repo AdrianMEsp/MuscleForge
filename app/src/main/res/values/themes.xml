@@ -1,10 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MuscleForge"
+    <style name="Theme.MuscleForge"
         parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
+        <item name="android:editTextColor">@android:color/black</item>
     </style>
-
-    <style name="Theme.MuscleForge" parent="Base.Theme.MuscleForge" />
 
     <style name="Title">
         <item name="android:textStyle">bold</item>
@@ -32,6 +31,14 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColorHint">@color/gold</item>
+    </style>
+
+    <style name="buttonConfirmCancel">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:backgroundTint">@color/buttonConfirmCancel</item>
+        <item name="android:layout_gravity">center</item>
     </style>
 
 </resources>

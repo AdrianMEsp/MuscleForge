@@ -25,8 +25,6 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ExerciseFragment : Fragment() {
 
-    val MESSAGE_DELETE_CONFIRMATION = "Are you sure you want to delete this exercise?"
-
     private var _binding: FragmentExerciseBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ExerciseViewModel by viewModels()
@@ -55,7 +53,7 @@ class ExerciseFragment : Fragment() {
             exercises = emptyList(),
             onEditClick = { exercise -> if (!isSelectionMode) editExercise(exercise) },
             onDeleteClick = { exercise -> if (!isSelectionMode) deleteExercise(exercise) },
-            onItemClick = {  },
+            onItemClick = { },
             isSelectionMode = isSelectionMode
         )
 
@@ -95,13 +93,13 @@ class ExerciseFragment : Fragment() {
         }
         loadExercises()
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                val filteredList = currentExercises.filter{
+                val filteredList = currentExercises.filter {
                     it.name.contains(newText.orEmpty(), ignoreCase = true)
                 }
                 adapter.updateList(filteredList)
@@ -129,69 +127,14 @@ class ExerciseFragment : Fragment() {
         }
     }
 
-
-//    TODO: crear una vista personalizada para este o usar la misma que usamos para crear
     private fun editExercise(exercise: Exercise) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(exercise.name)
-
-        // Creamos un layout vertical para los campos
-        val layout = LinearLayout(requireContext())
-        layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(50, 40, 50, 10) // márgenes opcionales
-
-        val inputName = EditText(requireContext()).apply { hint = "Name of the Exercise" }
-        val inputSeries = EditText(requireContext()).apply {
-            hint = exercise.series.toString()
-            inputType = InputType.TYPE_CLASS_NUMBER
+        DialogHelper.showDialogEditRoutine(requireContext(),exercise) {
+            updatedExercise -> viewModel.updateExercise(updatedExercise)
         }
-        val inputRepeats = EditText(requireContext()).apply {
-            hint = exercise.repetitions.toString()
-            inputType = InputType.TYPE_CLASS_NUMBER
-        }
-        val inputWeight = EditText(requireContext()).apply {
-            hint = exercise.weight.toString()
-            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        layout.addView(inputName)
-        layout.addView(inputSeries)
-        layout.addView(inputRepeats)
-        layout.addView(inputWeight)
-
-        builder.setView(layout)
-
-        builder.setPositiveButton("Save") { _, _ ->
-
-//            makes the first char uppercase so the list is always sorted
-            var name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
-
-            var series = inputSeries.text.toString().toIntOrNull() ?: 0
-            var repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
-            var weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
-
-            if (repeats == 0) {
-                repeats = exercise.repetitions
-            }
-            if (weight.equals(0.0)) {
-                weight = exercise.weight
-            }
-            if (series == 0) {
-                series = exercise.series
-            }
-            if(name.isBlank()){
-                name=exercise.name
-            }
-            val newExercise = Exercise(exercise.exerciseId,name, series, repeats, weight)
-            viewModel.updateExercise(newExercise)
-            }
-
-        builder.setNegativeButton("Cancel", null)
-        builder.show()
     }
 
     private fun deleteExercise(exercise: Exercise) {
-        DialogHelper.showDialogConfirm(requireContext(), MESSAGE_DELETE_CONFIRMATION) { confirmed ->
+        DialogHelper.showDialogConfirmDeleteExercise(requireContext()) { confirmed ->
             if (confirmed) {
                 viewModel.deleteExercise(exercise)
             }
@@ -199,8 +142,7 @@ class ExerciseFragment : Fragment() {
     }
 
     private fun showDialogCreateExercise() {
-        DialogHelper.showDialogCreateExercise(requireContext()) {
-            exercise ->
+        DialogHelper.showDialogCreateExercise(requireContext()) { exercise ->
             exercise?.let { viewModel.addExercise(exercise) }
         }
     }

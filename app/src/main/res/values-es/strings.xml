@@ -21,7 +21,9 @@
     <string name="exercise_name">Nombre del Ejercicio</string>
     <string name="routine">Rutina</string>
 
-    <string name="newExercise">Nuevo ejercicio</string>
+    <string name="name">Nombre</string>
+    <string name="new_exercise">Nuevo ejercicio</string>
+    <string name="edit_exercise">Modificar Ejercicio</string>
     <string name="add_exercise">Añadir ejercicio</string>
     <string name="routine_name">Nombre de la Rutina</string>
     <string name="dialog_confirm_exercise_in_routine">

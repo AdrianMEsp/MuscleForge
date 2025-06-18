@@ -87,7 +87,7 @@ class RoutineDetailFragment : Fragment() {
 
     private fun deleteExercise(exercise: Exercise, routineId: Long){
 //        object in Utils, it's a personal dialog
-        DialogHelper.showDialogConfirm(requireContext(), MESSAGE_DELETE_CONFIRMATION) { confirmed ->
+        DialogHelper.showDialogConfirmDeleteExercise(requireContext()) { confirmed ->
             if (confirmed){
                 viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId)
             }
@@ -95,62 +95,8 @@ class RoutineDetailFragment : Fragment() {
     }
 
     private fun editExercise(exercise: Exercise, routineId: Long) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle(exercise.name)
-
-        // Creamos un layout vertical para los campos
-        val layout = LinearLayout(requireContext())
-        layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(50, 40, 50, 10) // márgenes opcionales
-
-        val inputName = EditText(requireContext()).apply { hint = "Name of the Exercise" }
-        val inputSeries = EditText(requireContext()).apply {
-            hint = exercise.series.toString()
-            inputType = InputType.TYPE_CLASS_NUMBER
+        DialogHelper.showDialogEditRoutine(requireContext(),exercise) {
+                updatedExercise -> viewModel.editExercise(updatedExercise,routineId)
         }
-        val inputRepeats = EditText(requireContext()).apply {
-            hint = exercise.repetitions.toString()
-            inputType = InputType.TYPE_CLASS_NUMBER
-        }
-        val inputWeight = EditText(requireContext()).apply {
-            hint = exercise.weight.toString()
-            inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        layout.addView(inputName)
-        layout.addView(inputSeries)
-        layout.addView(inputRepeats)
-        layout.addView(inputWeight)
-
-        builder.setView(layout)
-
-        builder.setPositiveButton("Save") { _, _ ->
-
-//            makes the first char uppercase so the list is always sorted
-            var name = inputName.text.toString().trim().replaceFirstChar { it.uppercaseChar() }
-
-            var series = inputSeries.text.toString().toIntOrNull() ?: 0
-            var repeats = inputRepeats.text.toString().toIntOrNull() ?: 0
-            var weight = inputWeight.text.toString().toDoubleOrNull() ?: 0.0
-
-            if (repeats == 0) {
-                repeats = exercise.repetitions
-            }
-            if (weight.equals(0.0)) {
-                weight = exercise.weight
-            }
-            if (series == 0) {
-                series = exercise.series
-            }
-            if (name.isBlank()) {
-                name = exercise.name
-            }
-            val newExercise = Exercise(exercise.exerciseId, name, series, repeats, weight)
-
-            viewModel.editExercise(newExercise,routineId)
-        }
-
-        builder.setNegativeButton("Cancel", null)
-        builder.show()
     }
 }

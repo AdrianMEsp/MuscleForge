@@ -27,17 +27,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="25dp"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="10dp">
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="50sp"
                 android:layout_marginBottom="32dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:textSize="50sp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -49,27 +49,30 @@
                     android:id="@+id/startButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
                     android:src="@drawable/ic_play"
-                    app:tint="@color/black"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="40dp"
+                    app:tint="@color/black" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/pauseButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="50dp"
+                    android:backgroundTint="@color/white"
                     android:src="@drawable/ic_pause"
-                    app:tint="@color/black"
                     android:text="@string/pause"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="40dp"
+                    app:tint="@color/black" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/stopButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:tint="@color/black"
+                    android:backgroundTint="@color/white"
                     android:src="@drawable/ic_stop"
-                    app:maxImageSize="40dp" />
+                    app:maxImageSize="40dp"
+                    app:tint="@color/black" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>

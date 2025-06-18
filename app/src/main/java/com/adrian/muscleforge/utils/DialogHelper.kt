@@ -13,8 +13,8 @@ import com.adrian.muscleforge.exercise.Exercise
 
 object DialogHelper {
 
-    fun showDialogConfirm(context: Context, message: String, onResult: (Boolean) -> Unit) {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_confirm, null)
+    fun showDialogConfirmDeleteExercise(context: Context, onResult: (Boolean) -> Unit) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_delete_exercise, null)
 
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
@@ -22,11 +22,8 @@ object DialogHelper {
             .create()
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val tvMessage: TextView = dialogView.findViewById(R.id.etHintDeleteMessage)
         val btnAccept: Button = dialogView.findViewById(R.id.btnAccept)
         val btnCancel: Button = dialogView.findViewById(R.id.btnCancel)
-
-        tvMessage.text = message
 
         btnAccept.setOnClickListener {
             onResult(true)
@@ -113,4 +110,64 @@ object DialogHelper {
         dialog.show()
     }
 
+    fun showDialogEditRoutine(context: Context, exercise: Exercise, onResult: (Exercise) -> Unit){
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_edit_exercise,null)
+
+        val btnAccept: Button = dialogView.findViewById(R.id.btnAccept)
+        val btnCancel: Button = dialogView.findViewById(R.id.btnCancel)
+        val exerciseName: EditText = dialogView.findViewById(R.id.exerciseName)
+        val exerciseSeries: EditText = dialogView.findViewById(R.id.exerciseSeries)
+        val exerciseRepetitions: EditText = dialogView.findViewById(R.id.exerciseRepetitions)
+        val exerciseWeight: EditText = dialogView.findViewById(R.id.exerciseWeight)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        exerciseName.setText(exercise.name)
+        exerciseSeries.setText(exercise.series.toString())
+        exerciseRepetitions.setText(exercise.repetitions.toString())
+        exerciseWeight.setText(exercise.weight.toString())
+
+        btnAccept.setOnClickListener {
+            val updatedExercise = exercise.copy(
+                name = exerciseName.text.toString(),
+                series = exerciseSeries.text.toString().toIntOrNull() ?: 0,
+                repetitions = exerciseRepetitions.text.toString().toIntOrNull() ?: 0,
+                weight = exerciseWeight.text.toString().toDoubleOrNull() ?: 0.0
+            )
+            onResult(updatedExercise)
+            dialog.dismiss()
+        }
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+
+    }
+
+    fun showDialogConfirmDeleteRoutine(context: Context, onResult: (Boolean) -> Unit){
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_delete_routine, null)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnAccept: Button = dialogView.findViewById(R.id.btnAccept)
+        val btnCancel: Button = dialogView.findViewById(R.id.btnCancel)
+
+        btnAccept.setOnClickListener {
+            onResult(true)
+            dialog.dismiss()
+        }
+        btnCancel.setOnClickListener {
+            onResult(false)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
 }
