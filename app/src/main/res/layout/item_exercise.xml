@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:buttonTint="@color/confirmMakeRoutine"
-                android:buttonTintMode="multiply"
+                android:buttonTintMode="src_atop"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="4dp" />
 

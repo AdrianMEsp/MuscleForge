@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/primary"
-        android:layout_height="match_parent">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvRoutineNameInRoutine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="26sp"
-            android:textColor="@color/text"
-            android:text="@string/routine_name"
-            android:textStyle="bold"
             android:gravity="center"
-            android:padding="16dp"/>
+            android:padding="16dp"
+            android:text="@string/routine_name"
+            android:textColor="@color/text"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="150dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -34,7 +33,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        style="@style/floatAcctButton"
         android:contentDescription="@string/add_exercise"
         android:src="@drawable/ic_plus" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

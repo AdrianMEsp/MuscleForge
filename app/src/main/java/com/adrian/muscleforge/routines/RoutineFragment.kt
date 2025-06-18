@@ -51,7 +51,7 @@ class RoutineFragment : Fragment() {
                 findNavController().navigate(action)
             },
 
-            // Eliminar rutina
+            // Delete routine
             onDeleteClick = { routine ->
                 DialogHelper.showDialogConfirmDeleteRoutine(requireContext()) { confirmed ->
                     if (confirmed) {
@@ -60,7 +60,7 @@ class RoutineFragment : Fragment() {
                 }
             },
 
-            // Agregar ejercicios a la rutina
+            // Add exercises to the routine
             onAddExercisesClick = { routine ->
                 val bundle = bundleOf(
                     "isSelectionMode" to true,
@@ -77,7 +77,7 @@ class RoutineFragment : Fragment() {
             createRoutine()
         }
 
-        // Observar rutinas
+        // Gets all routines
         lifecycleScope.launchWhenStarted {
             viewModel.routines.collect { routines ->
                 adapter.updateList(routines)

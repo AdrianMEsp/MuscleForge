@@ -27,33 +27,33 @@
             android:id="@+id/exerciseName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gold"
+            android:textColor="@color/hints"
             android:hint="@string/exercise_name"
-            android:textColorHint="@color/gold" />
+            android:textColorHint="@color/hints" />
 
         <EditText
             android:id="@+id/exerciseSeries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gold"
+            android:textColor="@color/hints"
             android:hint="@string/number_of_series"
-            android:textColorHint="@color/gold" />
+            android:textColorHint="@color/hints" />
 
         <EditText
             android:id="@+id/exerciseRepetitions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gold"
+            android:textColor="@color/hints"
             android:hint="@string/number_of_repetitions"
-            android:textColorHint="@color/gold" />
+            android:textColorHint="@color/hints" />
 
         <EditText
             android:id="@+id/exerciseWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gold"
+            android:textColor="@color/hints"
             android:hint="@string/weight"
-            android:textColorHint="@color/gold" />
+            android:textColorHint="@color/hints" />
 
         <LinearLayout
             android:layout_width="match_parent"

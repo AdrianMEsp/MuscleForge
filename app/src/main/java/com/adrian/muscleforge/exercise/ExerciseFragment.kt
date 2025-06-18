@@ -14,12 +14,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.adrian.muscleforge.databinding.FragmentExerciseBinding
 import com.adrian.muscleforge.exercise.adapter.ExerciseAdapter
 import com.adrian.muscleforge.relation.RoutineExerciseCrossRef
 import com.adrian.muscleforge.utils.DialogHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -78,9 +80,10 @@ class ExerciseFragment : Fragment() {
                             )
                         }
 
-                        // Recargar lista de no asignados
-                        val updatedList = viewModel.getUnassignedExercises(id)
-                        adapter.updateList(updatedList.sortedBy { it.name })
+                        showExercisesAddedMessage()
+                        delay(1000)
+                        findNavController().popBackStack()
+
                     }
                 }
             }
@@ -131,6 +134,10 @@ class ExerciseFragment : Fragment() {
         DialogHelper.showDialogEditRoutine(requireContext(),exercise) {
             updatedExercise -> viewModel.updateExercise(updatedExercise)
         }
+    }
+
+    private fun showExercisesAddedMessage(){
+        DialogHelper.showDialogExercisesAdded(requireContext(), viewLifecycleOwner)
     }
 
     private fun deleteExercise(exercise: Exercise) {

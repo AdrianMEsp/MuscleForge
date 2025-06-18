@@ -7,9 +7,12 @@ import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.adrian.muscleforge.R
 import com.adrian.muscleforge.exercise.Exercise
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 object DialogHelper {
 
@@ -169,5 +172,23 @@ object DialogHelper {
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    fun showDialogExercisesAdded(context: Context, lifecycleOwner: LifecycleOwner){
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_exercises_added,null)
+
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
+        lifecycleOwner.lifecycleScope.launch {
+            delay(1000)
+            dialog.dismiss()
+        }
     }
 }

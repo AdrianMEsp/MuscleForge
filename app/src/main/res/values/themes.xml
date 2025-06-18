@@ -30,7 +30,7 @@
         <item name="android:textColor">@color/text</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textColorHint">@color/gold</item>
+        <item name="android:textColorHint">@color/hints</item>
     </style>
 
     <style name="buttonConfirmCancel">
@@ -39,6 +39,12 @@
         <item name="android:textStyle">bold</item>
         <item name="android:backgroundTint">@color/buttonConfirmCancel</item>
         <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="floatAcctButton">
+        <item name="android:backgroundTint">@color/buttonAdd</item>
+        <item name="android:layout_marginEnd">50dp</item>
+        <item name="android:layout_marginBottom">150dp</item>
     </style>
 
 </resources>

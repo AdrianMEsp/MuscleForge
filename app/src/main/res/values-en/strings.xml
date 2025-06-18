@@ -21,6 +21,7 @@
     <string name="exercise_name">Exercise Name</string>
     <string name="routine">Routine</string>
 
+    <string name="exercises_add">Exercises added</string>
     <string name="name">Name</string>
     <string name="new_exercise">New exercise</string>
     <string name="edit_exercise">Edit Exercise</string>

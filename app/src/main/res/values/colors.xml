@@ -7,9 +7,8 @@
 
 
     <color name="primary">#1f1f1f</color>
-    <color name="confirmMakeRoutine">#174737</color>
+
     <color name="splash_background">#000000</color>
-    <color name="gold">#F4BA6B</color>
 <!--    Organized colors -->
     <color name="text">#ec6821</color>
     <color name="icons">#ec6821</color>
@@ -20,6 +19,7 @@
     <color name="primaryDark">#181818</color>
     <color name="buttonConfirmCancel">#ec6821</color>
     <color name="cardColor">#1F1D1D</color>
-
+    <color name="confirmMakeRoutine">#0A8C4E</color>
+    <color name="hints">#F4BA6B</color>
 
 </resources>

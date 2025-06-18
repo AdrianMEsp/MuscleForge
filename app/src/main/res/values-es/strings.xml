@@ -21,6 +21,7 @@
     <string name="exercise_name">Nombre del Ejercicio</string>
     <string name="routine">Rutina</string>
 
+    <string name="exercises_add">Ejercicios añadidos</string>
     <string name="name">Nombre</string>
     <string name="new_exercise">Nuevo ejercicio</string>
     <string name="edit_exercise">Modificar Ejercicio</string>

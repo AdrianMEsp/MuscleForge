@@ -25,7 +25,7 @@
 
         <EditText
             android:id="@+id/exerciseName"
-            android:textColorHint="@color/gold"
+            android:textColorHint="@color/hints"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/exercise_name" />
@@ -35,20 +35,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/number_of_series"
-            android:textColorHint="@color/gold"/>
+            android:textColorHint="@color/hints"/>
 
         <EditText
             android:id="@+id/exerciseRepetitions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/gold"
+            android:textColorHint="@color/hints"
             android:hint="@string/number_of_repetitions" />
 
         <EditText
             android:id="@+id/exerciseWeight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="@color/gold"
+            android:textColorHint="@color/hints"
             android:hint="@string/weight" />
 
         <LinearLayout
