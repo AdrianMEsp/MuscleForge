@@ -63,18 +63,26 @@
                 android:id="@+id/btnAccept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/buttonConfirmCancel"
                 android:text="@string/confirm"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
+                android:backgroundTint="@color/buttonConfirmCancel"
                 android:text="@string/cancel"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

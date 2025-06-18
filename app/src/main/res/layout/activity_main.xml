@@ -11,7 +11,6 @@
     <FrameLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_marginTop="32dp"
         android:layout_height="wrap_content"
         android:background="@color/primaryDark"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/app_name"
-            android:textColor="@color/blue" />
+            android:textColor="@color/text" />
 
     </FrameLayout>
 
@@ -47,7 +46,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primaryDark"
         app:itemIconSize="32dp"
-        app:itemIconTint="@color/blue"
+        app:itemIconTint="@color/icons"
         app:itemTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

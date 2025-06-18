@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#C30707</color>
 
+
     <color name="primary">#1f1f1f</color>
+    <color name="confirmMakeRoutine">#174737</color>
+    <color name="splash_background">#000000</color>
+    <color name="gold">#F4BA6B</color>
+<!--    Organized colors -->
+    <color name="text">#ec6821</color>
+    <color name="icons">#ec6821</color>
+    <color name="welcome">#ec6821</color>
+    <color name="chronometer">#ec6821</color>
+    <color name="buttonAdd">#ec6821</color>
+    <color name="iconInButtonAdd">#000000</color>
     <color name="primaryDark">#181818</color>
-    <color name="secundary">#ee9361</color>
-    <color name="accent">#FFFFFFFF</color>
-    <color name="gold">#ffe78f</color>
-    <color name="black_alpha">#98000000</color>
-    <color name="blue">#27277E</color>
-    <color name="blueExercise">#2F2F81</color>
-    <color name="grey">#373434</color>
-    <color name="blue_green">#174737</color>
-    <color name="bluelight">#176695</color>
-    <color name="pinki">#441049</color>
-    <color name="light_pink">#783AE4</color>
-    <color name="dark_lightblue">#164961</color>
-    <color name="greyHint">#928D8B</color>
+    <color name="buttonConfirmCancel">#ec6821</color>
+    <color name="cardColor">#1F1D1D</color>
 
 
 </resources>

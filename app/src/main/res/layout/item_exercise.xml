@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blueExercise"
+        android:background="@color/primaryDark"
         android:orientation="vertical"
         android:padding="8dp">
 
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:buttonTint="@color/blue_green"
+                android:buttonTint="@color/confirmMakeRoutine"
                 android:buttonTintMode="multiply"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="4dp" />
@@ -37,7 +37,7 @@
                 android:src="@drawable/ic_delete"
                 app:tint="@color/white"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/blueExercise"
+                android:backgroundTint="@color/primaryDark"
                 />
 
             <!-- Título del ejercicio -->
@@ -51,7 +51,7 @@
                 android:text="@string/exercise_name"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 android:textSize="25sp" />
 
             <ImageButton
@@ -61,7 +61,7 @@
                 android:src="@drawable/ic_edit"
                 app:tint="@color/white"
                 android:layout_gravity="center"
-                android:backgroundTint="@color/blueExercise"
+                android:backgroundTint="@color/primaryDark"
                 />
 
         </LinearLayout>
@@ -78,7 +78,6 @@
                 style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/series"
-                android:textColor="@color/black"
                  />
 
             <TextView
@@ -86,16 +85,14 @@
                 android:layout_height="wrap_content"
                 style="@style/itemExercise"
                 android:padding="4dp"
-                android:text="@string/repetitions"
-                android:textColor="@color/black" />
+                android:text="@string/repetitions" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/itemExercise"
                 android:padding="4dp"
-                android:text="@string/weight"
-                android:textColor="@color/black"/>
+                android:text="@string/weight"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <!-- Valores de los datos -->
@@ -111,7 +108,6 @@
                 style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/series"
-                android:textColor="@color/black"
                 tools:text="3" />
 
             <TextView
@@ -121,7 +117,6 @@
                 style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/repetitions"
-                android:textColor="@color/black"
                 tools:text="15" />
 
             <TextView
@@ -131,7 +126,6 @@
                 style="@style/itemExercise"
                 android:padding="4dp"
                 android:text="@string/weight"
-                android:textColor="@color/black"
                 tools:text="25" />
         </LinearLayout>
 
