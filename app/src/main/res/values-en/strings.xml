@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">MuscleForge</string>
-    <string name="welcome">Bienvenido</string>
+    <string name="welcome">Welcome</string>
     <string name="home">Home</string>
 
     <string name="exercises">Exercises</string>

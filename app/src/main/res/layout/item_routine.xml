@@ -12,6 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/card_routine"
         android:padding="12dp">
 
         <CheckBox
@@ -28,6 +29,7 @@
             android:layout_height="wrap_content"
             android:text="@string/name_of_routine"
             android:textColor="@color/black"
+            android:textStyle="bold"
             style="@style/itemExercise"
             app:layout_constraintStart_toEndOf="@id/checkboxRoutine"
             app:layout_constraintEnd_toStartOf="@id/btnDeleteRoutine"

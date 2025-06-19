@@ -47,6 +47,8 @@ object DialogHelper {
             .setCancelable(false)
             .create()
 
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         val btnAccept: Button = dialogView.findViewById(R.id.btnAccept)
         val btnCancel: Button = dialogView.findViewById(R.id.btnCancel)
         val etNewRoutineName: EditText = dialogView.findViewById(R.id.etNewRoutineName)
