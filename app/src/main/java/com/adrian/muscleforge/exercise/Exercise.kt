@@ -9,6 +9,6 @@ data class Exercise(
     val name: String,
     val series: Int,
     val repetitions: Int,
-    val weight: Double
+    val weight: Double,
     )
 

@@ -3,7 +3,6 @@ package com.adrian.muscleforge.routines
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrian.muscleforge.exercise.Exercise
-import com.adrian.muscleforge.routines.dao.RoutineDao
 import com.adrian.muscleforge.routines.repository.RoutineRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -26,8 +25,8 @@ class RoutineViewModel @Inject constructor(private val repository: RoutineReposi
 
     fun loadExercisesForRoutine(routineId: Long) {
         viewModelScope.launch {
-            val routineWithExercises = repository.getRoutineWithExercises(routineId)
-            _exercisesInRoutine.value = routineWithExercises.exercises
+            val ordered = repository.getExercisesInRoutineOrdered(routineId)
+            _exercisesInRoutine.value = ordered
         }
     }
 
@@ -57,7 +56,7 @@ class RoutineViewModel @Inject constructor(private val repository: RoutineReposi
         viewModelScope.launch {
             val newRoutine = Routine(name = name)
             repository.addRoutine(newRoutine)
-            // No hace falta volver a cargar manualmente: el Flow se actualiza solo
+            // this actualize automatically
         }
     }
 
@@ -76,5 +75,12 @@ class RoutineViewModel @Inject constructor(private val repository: RoutineReposi
             loadExercisesForRoutine(id)
         }
     }
+
+    fun updateExercisePositionInRoutine(routineId: Long, exerciseId: Long, newPosition: Int) {
+        viewModelScope.launch {
+            repository.updateExercisePositionInRoutine(routineId, exerciseId, newPosition)
+        }
+    }
+
 }
 

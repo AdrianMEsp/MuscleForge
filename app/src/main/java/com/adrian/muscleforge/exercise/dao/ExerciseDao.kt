@@ -28,4 +28,8 @@ interface ExerciseDao {
 
     @Update
     suspend fun updateExercise(exercise: Exercise)
+
+    @Query("SELECT COUNT(*) FROM routine_exercise_cross_ref WHERE routineId = :routineId")
+    suspend fun getExerciseCountInRoutine(routineId: Long): Int
+
 }

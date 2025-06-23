@@ -21,8 +21,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoutineFragment : Fragment() {
 
-    val MESAGGE_DELETE_ROUTINE= "Are you sure you want to delete this routine?"
-
     private var _binding: FragmentRoutinesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoutineViewModel by viewModels()

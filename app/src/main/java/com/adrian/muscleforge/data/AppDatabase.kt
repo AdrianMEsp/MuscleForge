@@ -15,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Routine::class, Exercise::class, RoutineExerciseCrossRef::class], version = 11)
+@Database(entities = [Routine::class, Exercise::class, RoutineExerciseCrossRef::class], version = 12)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun routineDao(): RoutineDao
     abstract fun exerciseDao(): ExerciseDao
@@ -31,8 +31,8 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "muscle_forge_db"
                 )
-                    .fallbackToDestructiveMigration() // 🔧 Borra DB vieja si cambia versión
-                    .addCallback(DatabaseCallback(context))   // ⬅️ Attach callback para seeding
+                    .fallbackToDestructiveMigration() // Borra DB vieja si cambia versión
+                    .addCallback(DatabaseCallback(context))   // Attach callback para seeding
                     .build()
                 INSTANCE = instance
                 instance

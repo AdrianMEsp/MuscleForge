@@ -2,7 +2,6 @@ package com.adrian.muscleforge.routines.repository
 
 import com.adrian.muscleforge.exercise.Exercise
 import com.adrian.muscleforge.exercise.dao.ExerciseDao
-import com.adrian.muscleforge.relation.RoutineWithExercises
 import com.adrian.muscleforge.routines.Routine
 import com.adrian.muscleforge.routines.dao.RoutineDao
 import kotlinx.coroutines.flow.Flow
@@ -35,8 +34,17 @@ class RoutineRepository @Inject constructor(
         routineDao.addRoutine(routine)
     }
 
-    suspend fun getRoutineWithExercises(routineId: Long):
-            RoutineWithExercises = routineDao.getRoutineWithExercises(routineId)
+    suspend fun updateExercisePositionInRoutine(routineId: Long, exerciseId: Long, newPosition: Int) {
+        routineDao.updateExercisePositionInRoutine(routineId, exerciseId, newPosition)
+    }
+
+    suspend fun getExercisesInRoutineOrdered(routineId: Long): List<Exercise> {
+        return routineDao.getExercisesWithPositionForRoutine(routineId)
+            .sortedBy { it.position }
+            .map { it.exercise }
+    }
+
+
 
 
 }

@@ -25,5 +25,7 @@ import com.adrian.muscleforge.routines.Routine
 )
 data class RoutineExerciseCrossRef(
     val routineId: Long,
-    val exerciseId: Long
+    val exerciseId: Long,
+//    for arrange order in every routine
+    val position: Int
 )

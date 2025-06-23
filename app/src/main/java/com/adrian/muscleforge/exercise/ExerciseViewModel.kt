@@ -1,12 +1,13 @@
 package com.adrian.muscleforge.exercise
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adrian.muscleforge.exercise.dao.ExerciseDao
 import com.adrian.muscleforge.relation.RoutineExerciseCrossRef
 import com.adrian.muscleforge.routines.dao.RoutineDao
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -61,5 +62,12 @@ class ExerciseViewModel @Inject constructor( private val exerciseDao: ExerciseDa
             exerciseDao.delete(exercise)
         }
     }
+
+    fun getExerciseCountInRoutine(routineId: Long): Deferred<Int> {
+        return viewModelScope.async {
+            routineDao.getExerciseCountInRoutine(routineId)
+        }
+    }
+
 
 }

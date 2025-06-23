@@ -87,4 +87,14 @@ class ExerciseAdapter(
 
     fun getSelectedExercises(): List<Exercise> = selectedExercises.toList()
 
+    fun swapItems(fromPosition: Int, toPosition: Int): List<Exercise> {
+        val mutableList = exercises.toMutableList()
+        val movedItem = mutableList.removeAt(fromPosition)
+        mutableList.add(toPosition, movedItem)
+        exercises = mutableList.toList()
+        notifyItemMoved(fromPosition, toPosition)
+        return exercises
+    }
+
+
 }

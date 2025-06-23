@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.adrian.muscleforge.exercise.Exercise
+import com.adrian.muscleforge.relation.ExerciseWithPosition
 import com.adrian.muscleforge.relation.RoutineExerciseCrossRef
 import com.adrian.muscleforge.relation.RoutineWithExercises
 import com.adrian.muscleforge.routines.Routine
@@ -40,5 +41,45 @@ interface RoutineDao {
     @Query("DELETE FROM routine_exercise_cross_ref " +
             "WHERE routineId = :routineId AND exerciseId = :exerciseId")
     suspend fun deleteExerciseFromRoutine(routineId: Long, exerciseId: Long)
+
+    @Query("""
+    SELECT e.*, rec.position 
+    FROM exercise e
+    INNER JOIN routine_exercise_cross_ref rec 
+    ON e.exerciseId = rec.exerciseId
+    WHERE rec.routineId = :routineId
+    ORDER BY rec.position ASC
+""")
+    suspend fun getExercisesWithPositionForRoutine(routineId: Long): List<ExerciseWithPosition>
+
+
+    @Query("""
+    UPDATE routine_exercise_cross_ref
+    SET position = :position
+    WHERE routineId = :routineId AND exerciseId = :exerciseId
+""")
+    suspend fun updatePosition(routineId: Long, exerciseId: Long, position: Int)
+
+
+    @Query("""
+    SELECT COUNT(*) 
+    FROM routine_exercise_cross_ref 
+    WHERE routineId = :routineId
+    """)
+    suspend fun getExerciseCountInRoutine(routineId: Long): Int
+
+
+    @Query("""
+    UPDATE routine_exercise_cross_ref
+    SET position = :newPosition
+    WHERE routineId = :routineId AND exerciseId = :exerciseId
+""")
+    suspend fun updateExercisePositionInRoutine(
+        routineId: Long,
+        exerciseId: Long,
+        newPosition: Int
+    )
+
+
 
 }

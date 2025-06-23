@@ -1,22 +1,18 @@
 package com.adrian.muscleforge.routines
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.adrian.muscleforge.R
 import com.adrian.muscleforge.databinding.FragmentRoutineDetailBinding
 import com.adrian.muscleforge.exercise.Exercise
@@ -35,7 +31,6 @@ class RoutineDetailFragment : Fragment() {
 
     // Safe Args
     private val args: RoutineDetailFragmentArgs by navArgs()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -60,6 +55,35 @@ class RoutineDetailFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
+        // ItemTouchHelper for drag & drop
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
+                val updatedList = adapter.swapItems(fromPosition, toPosition)
+
+                updatedList.forEachIndexed { index, exercise ->
+                    viewModel.updateExercisePositionInRoutine(routineId, exercise.exerciseId, index)
+                }
+
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // No hacemos nada con swipe
+            }
+
+            override fun isLongPressDragEnabled(): Boolean = true
+        }
+
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
+
         // FAB(Floating action button) to add exercises to this routine
         binding.fabAddExercise.setOnClickListener {
             val bundle = bundleOf(
@@ -69,13 +93,6 @@ class RoutineDetailFragment : Fragment() {
             findNavController().navigate(R.id.exerciseFragment, bundle)
         }
 
-//        Load asigned exercises for this routine
-//        viewModel.loadExercisesForRoutine(routineId)
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.exercisesInRoutine.collect { exercises ->
-//                adapter.updateList(exercises.sortedBy { it.name })
-//            }
-//        }
         viewModel.loadExercisesForRoutine(routineId)
         lifecycleScope.launchWhenStarted {
             viewModel.exercisesInRoutine.collect { exercises ->
@@ -90,7 +107,6 @@ class RoutineDetailFragment : Fragment() {
     }
 
     private fun deleteExercise(exercise: Exercise, routineId: Long){
-//        object in Utils, it's a personal dialog
         DialogHelper.showDialogConfirmDeleteExercise(requireContext()) { confirmed ->
             if (confirmed){
                 viewModel.deleteExerciseFromRoutine(exercise.exerciseId, routineId)

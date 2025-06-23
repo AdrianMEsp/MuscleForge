@@ -65,4 +65,5 @@ class RoutineAdapter(
         routines = newList
         notifyDataSetChanged()
     }
+
 }
