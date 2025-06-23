@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/name_of_routine"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textStyle="bold"
             style="@style/itemExercise"
             app:layout_constraintStart_toEndOf="@id/checkboxRoutine"

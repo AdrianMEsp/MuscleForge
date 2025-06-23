@@ -20,14 +20,14 @@
     <style name="Greetings">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">42sp</item>
-        <item name="android:textColor">@color/welcome</item>
+        <item name="android:textColor">@color/primaryColor</item>
     </style>
 
 <!--    -->
     <style name="itemExercise">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/text</item>
+        <item name="android:textColor">@color/primaryColor</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textColorHint">@color/hints</item>
@@ -37,12 +37,12 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:backgroundTint">@color/buttonConfirmCancel</item>
+        <item name="android:backgroundTint">@color/primaryColor</item>
         <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="floatAcctButton">
-        <item name="android:backgroundTint">@color/buttonAdd</item>
+        <item name="android:backgroundTint">@color/primaryColor</item>
         <item name="android:layout_marginEnd">50dp</item>
         <item name="android:layout_marginBottom">150dp</item>
     </style>

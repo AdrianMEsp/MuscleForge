@@ -16,7 +16,7 @@
             android:gravity="center"
             android:padding="16dp"
             android:text="@string/routine_name"
-            android:textColor="@color/text"
+            android:textColor="@color/primaryColor"
             android:textSize="26sp"
             android:textStyle="bold" />
 

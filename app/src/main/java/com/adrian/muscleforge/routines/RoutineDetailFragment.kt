@@ -27,8 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RoutineDetailFragment : Fragment() {
 
-    val MESSAGE_DELETE_CONFIRMATION = "Are you sure you want to delete this exercise?"
-
     private var _binding: FragmentRoutineDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RoutineViewModel by viewModels()
@@ -72,10 +70,16 @@ class RoutineDetailFragment : Fragment() {
         }
 
 //        Load asigned exercises for this routine
+//        viewModel.loadExercisesForRoutine(routineId)
+//        lifecycleScope.launchWhenStarted {
+//            viewModel.exercisesInRoutine.collect { exercises ->
+//                adapter.updateList(exercises.sortedBy { it.name })
+//            }
+//        }
         viewModel.loadExercisesForRoutine(routineId)
         lifecycleScope.launchWhenStarted {
             viewModel.exercisesInRoutine.collect { exercises ->
-                adapter.updateList(exercises.sortedBy { it.name })
+                adapter.updateList(exercises)
             }
         }
     }

@@ -10,14 +10,9 @@
 
     <color name="splash_background">#000000</color>
 <!--    Organized colors -->
-    <color name="text">#ec6821</color>
-    <color name="icons">#ec6821</color>
-    <color name="welcome">#ec6821</color>
-    <color name="chronometer">#ec6821</color>
-    <color name="buttonAdd">#ec6821</color>
+    <color name="primaryColor">#ec6821</color>
     <color name="iconInButtonAdd">#000000</color>
     <color name="primaryDark">#181818</color>
-    <color name="buttonConfirmCancel">#ec6821</color>
     <color name="cardColor">#1F1D1D</color>
     <color name="confirmMakeRoutine">#0A8C4E</color>
     <color name="hints">#F4BA6B</color>
