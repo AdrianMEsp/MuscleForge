@@ -9,14 +9,15 @@
     android:layout_height="match_parent"
     tools:context=".home.MainActivity">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
 
         <TextView
             style="@style/Title"
@@ -24,10 +25,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
             android:paddingStart="15dp"
+            android:paddingEnd="0dp"
             android:text="@string/app_name"
             android:textColor="@color/primaryColor" />
 
-    </FrameLayout>
+<!--        spacer for the settings icon-->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
 
 
     <androidx.fragment.app.FragmentContainerView
